@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true"
+         monitoring="autodetect" dynamicConfig="true">
+
+    <!-- 注：此处的name要与CacheServiceImpl中@Cacheable的value对应 -->
+    <cache name="CACHE_DATA" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LRU"/>
+</ehcache>

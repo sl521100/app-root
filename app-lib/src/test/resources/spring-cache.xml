@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/cache
+     http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+
+    <cache:annotation-driven />
+
+    <bean id="ssoCacheServiceFacade" class="com.cnblogs.yjmyzz.cache.service.sso.SsoCacheServiceFacade">
+        <constructor-arg ref="ssoCacheService" />
+        <property name="expiredSeconds" value="28800"></property>
+    </bean>
+
+    <!-- ehcache CacheManager -->
+    <bean id="ehcacheCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager">
+            <bean id="ehcache"
+                  class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+                <property name="configLocation" value="classpath:ehcache.xml" />
+                <property name="shared" value="true" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- InMemory CacheManager -->
+    <bean id="inMemoryCacheManager" class="com.cnblogs.yjmyzz.cache.manager.inmemory.CacheManager">
+        <property name="caches">
+            <set>
+                <bean class="com.cnblogs.yjmyzz.cache.manager.inmemory.CacheData"
+                      p:name="CACHE_DATA" />
+            </set>
+        </property>
+    </bean>
+
+    <!-- MongoDB CacheManager -->
+    <bean id="mongodbCacheManager" class="com.cnblogs.yjmyzz.cache.manager.mongodb.CacheManager">
+        <property name="caches">
+            <set>
+                <bean class="com.cnblogs.yjmyzz.cache.manager.mongodb.CacheData"
+                      p:name="CACHE_DATA">
+                    <property name="host" value="localhost" />
+                    <property name="port" value="27017" />
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+    <!-- Couchbase CacheManager -->
+    <bean id="couchbaseCacheManager" class="com.cnblogs.yjmyzz.cache.manager.couchbase.CacheManager">
+        <property name="caches">
+            <set>
+                <bean class="com.cnblogs.yjmyzz.cache.manager.couchbase.CacheData"
+                      p:name="CACHE_DATA">
+                    <property name="host" value="http://127.0.0.1" />
+                    <property name="port" value="8091" />
+                    <property name="bucketName" value="default" />
+                    <property name="expiredSeconds" value="28800" />
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="cacheManager" class="org.springframework.cache.support.CompositeCacheManager">
+        <property name="cacheManagers">
+            <list>
+                <ref bean="ehcacheCacheManager" />
+               <!-- <ref bean="mongodbCacheManager" />
+                <ref bean="inMemoryCacheManager" />-->
+            </list>
+        </property>
+        <property name="fallbackToNoOpCache" value="true" />
+    </bean>
+</beans>

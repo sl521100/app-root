@@ -1,0 +1,17 @@
+﻿.noDisplay { display: none; }
+.autoPopPanel { background-color: #FFF; font-size: 1em; position: absolute; width: 250px; overflow-x: hidden; cursor: pointer; border: 1px solid #7F9DB9; z-index: 1000; }
+.autoPopPanel ul { list-style: none inside none; margin: 0; }
+.autoPopPanel ul, .autoPopPanel ul li { padding: .5em; }
+.autoPopPanel .mouseover { background-color: #D0E5F5; }
+.popPanel { border: 1px solid #ABADB3; background-color: #FFF; width: 390px; overflow-y: hidden; overflow-x: hidden; padding: 5px; font-size: 1em; clear: both; position: absolute; z-index: 1000; }
+.popPanel .closeImg { cursor: pointer; display: block; float: right; height: 14px; width: 14px; text-indent: -99em; background: url(../images/Button_Hotcity_Close.gif) no-repeat 0 0; }
+.popPanel hr { display: block; overflow: hidden; clear: both; border: 1px dashed #BBB; }
+.popPanel .CityNav { border-bottom: 1px solid #DDD; overflow: hidden; }
+.popPanel .CityNav span { position: relative; bottom: -1px; float: left; display: inline; margin-right: 8px; padding: 0 8px; border: 1px solid #DDD; height: 18px; font-size: 12px; line-height: 18px; text-align: center; background-color: white; color: #0069CA; cursor: pointer; }
+.popPanel .CityNav span.active { background-color: #E8EDF1; }
+.popPanel .CityBox { clear: both; }
+.popPanel .CityBox ul { list-style: none inside none; padding: 0; zoom: 1; margin: 0 5px; }
+.popPanel .CityBox ul:after { clear: both; content: ""; display: block; height: 0; visibility: hidden; }
+.popPanel .CityBox ul li { float: left; padding: 6px 15px 3px 0; text-align: center; height: 18px; line-height: 18px; }
+.popPanel .CityBox ul li a { text-decoration: none; cursor: pointer; word-break: keep-all; white-space: nowrap; }
+.popPanel .CityBox ul li a:hover { background-color: #D0E5F5; }

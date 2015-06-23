@@ -1,0 +1,41 @@
+/* =admin
+-----------------------------------------------------------------------------*/
+body{overflow-x:auto;}
+.menu-header-bg{background:url(../images/top-bg.jpg) no-repeat 0 bottom; height:74px;}
+.menu-header{height:74px; background:url(../images/top-repeat.jpg) repeat-x 0 bottom; padding-right:0px;}
+.menu-logo{text-indent:-99em;}
+.top-nav{float:right; font-size:12px; margin-top:15px;margin-right:40px;}
+.top-nav li{float:left; padding-left:20px;line-height:1.231;}
+.top-nav li a,.top-nav li{color:#FFFFFF;}
+.top-nav li a:hover{color:#E17009;}
+.top-nav li a.home{padding-left:20px;}
+.admin-nav{background:url(../images/navbg.gif) repeat-x 0 0; height:37px; font-weight:bolder; font-size:14px;}
+.admin-nav ul{width:100%; padding:4px 0 0 0;}
+.admin-nav li{float:left; line-height:33px; vertical-align:middle; height:33px; background:url(../images/nav-line.gif) no-repeat 0 50%; margin-left:-2px; position:relative;}
+.admin-nav li a{padding-left:2px; margin:0 10px; height:33px;}
+.admin-nav li a,.admin-nav li a span{display:inline-block; *display:inline; *zoom:1; color:#FFFFFF;}
+.admin-nav li a span{padding:5px 15px 5px 15px; height:23px; line-height:23px;}
+.admin-nav li a:hover,.admin-nav li a.cur{background:url(../images/menubg.gif) no-repeat 0 0;}
+.admin-nav li a:hover span,.admin-nav li a.cur span{background:url(../images/menubg.gif) no-repeat 100% 0; cursor:pointer; color:#FFFFFF;}
+.adminIframe{width:100%; height:100%;}
+/*--#main,.adminIframe td{height:100%;}*/
+.switchPoint div{height:100%; vertical-align:middle; background:#eef3fa url(../images/point.gif) no-repeat 0 50%; width:10px; padding:0 5px;cursor:pointer;}
+.leftmenu{background:#0C1B43;padding-left:10px;}
+.admin-nav li a span em{background:url(../images/nav-icon.png) no-repeat 0 0; cursor:pointer; display:inline-block; *display:inline; *zoom:1;}
+.admin-nav li a span em.nicon-iASA{background-position:0px 0px; width:30px; height:20px; vertical-align:middle;}
+.admin-nav li a span em.nicon-iGSA{background-position:0px -35px; width:30px; height:20px; vertical-align:middle;}
+.admin-nav li a span em.nicon-iGHA{background-position:0px -65px; width:30px; height:20px; vertical-align:middle;}
+.admin-nav li a span em.nicon-iFIR{background-position:0px -99px; background-position:0px -95px\9; width:35px; height:12px; vertical-align:middle;}
+.admin-nav li a span em.nicon-iFDS{background-position:0px -131px; width:25px; height:20px; vertical-align:middle;}
+.admin-nav li a span em.nicon-iDSS{background-position:0px -164px; background-position:0px -161px\9; width:25px; height:16px; vertical-align:middle;}
+.admin-nav li a span em.nicon-iUDS{background-position:0px -197px; background-position:0px -194px; width:30px; height:18px; vertical-align:middle;}
+.sublist{background:#0C1B43; font-size:12px; color:#666; padding:5px 0 10px 0; position:absolute; z-index:1000; top:33px; left:10px;box-shadow:0 1px 3px #666;}/*top35*/
+.sublist dl{width:130px;}
+.sublist li{float:none; background:none;}
+.admin-nav li .sublist a{display:block; line-height:22px; height:22px; padding:4px 10px; white-space:nowrap;}
+.sublist dt a{font-weight:bolder; background:#F8F8F8; padding-left:15px;}
+.sublist a{font-size:12px; color:#fff; font-weight:normal; line-height:24px; padding-left:15px;}
+.sublist dd a:hover{background:#E17009; text-decoration:none;}
+.sublist dd ul{padding-left:15px;}
+.sublist dd ul a{color:#999;}
+.none{display:none;}

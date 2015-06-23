@@ -1,0 +1,23 @@
+﻿.menu{background:#084A5E url(../images/menu-bg.png) repeat-x; height:35px; border-top:1px solid #5e6783; box-shadow:0 1px 5px #5E6783;}
+.menu .wrap{min-width:990px;_width:990px;}
+.navigation{position:relative; font-size:14px; font-weight:bolder;}
+.navigation li{float:left;  position:relative;background:url("../images/menu-bg.png") repeat-x scroll;z-index:100;}
+.navigation a{display:block; color:#FFF; line-height:35px; word-wrap:nowrap;}
+.navigation .main-menu{height:35px;white-space:nowrap;}
+.main-menu{_width:50px;}
+.navigation a.cur,.navigation li a:hover{background:url(../images/menu-bg-hover.png) no-repeat 2px 0; color:#FFFFFF; position:relative; z-index:100; text-decoration:none;cursor:pointer;}
+.navigation dl dd a:hover{color:#fff;}
+.navigation a span{display:block; padding:0 25px; line-height:35px; height:35px;background:url(../images/menu-line.png) no-repeat 0 50%;}
+.navigation .span-first{background:none;}
+.navigation a.hoverflag{background:#0d2349 url(../images/menu-bg-hover.png) no-repeat 2px 0; color:#FFFFFF; position:relative; z-index:100;}
+/*--=============================submenu style=============================--*/
+.sublist{background:#5E6783; font-size:12px; color:#666; padding:5px 0 10px 0; position:absolute; z-index:1000; top:35px; left:2px;box-shadow:2px 2px 2px #666;}
+.sublist dl{width:165px;}
+.sublist li{float:none; background:none;}
+.sublist dt a{font-weight:bolder; background:#F8F8F8; padding-left:15px;}
+.sublist a{font-size:14px; color:#fff; font-weight:normal; line-height:18px; padding:5px 5px 5px 15px;}
+.sublist dd a:hover{background:#E17009; text-decoration:none;}
+.sublist dd ul{padding-left:15px;}
+.sublist dd ul a{color:#999;}
+.sublist-col{border-right:1px solid #E4E4E4;}
+.sublist-w1{width:241px;}

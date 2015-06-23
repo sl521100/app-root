@@ -1,0 +1,262 @@
+﻿/*打印主区域*/
+body { text-align:center; }
+
+.mainDiv
+{   
+  width:790px; 
+  margin: 0px auto; 
+  position:relative;
+}
+.controlArea
+{
+    position:absolute;
+    margin: 0px 0 0 10px;
+    float:left;
+    border:1px solid #FFF;
+    width:350px;
+    height:auto;
+    
+}
+.tabsDiv
+{
+   position:absolute;
+   margin: 0px 0 0 10px;
+   float:right;
+   left:375px;
+   width:435px;
+   height:650px;
+   border-style:dashed;
+   text-align:left;
+}
+
+.mainPrintDiv
+{
+    width:386px;
+    height:485px;
+    float:left;
+    margin-right:-3px; 
+}
+
+.printPreiewDiv
+{
+    width:386px;
+    height:485px;
+    float:left;
+    margin-right:-3px; 
+    border:0 none #FFF
+}
+.divOptionxInfo
+{
+   font-size:13px; 
+   float:left; 
+   margin-top:20px 
+}
+
+
+/*表*/
+.barcoded_table 
+{
+    margin-top:20px;
+    background-color:#fafbfb;
+    width:386px; 
+    height:485px; 
+    border:solid 1px #000;
+    overflow:hidden;
+    table-layout:fixed;
+    page-break-after:always; /*打印时按表分页*/
+}
+/*行*/
+.barcoded_table_tr1 
+{
+    width:386px;
+    height:76px;
+}
+.barcoded_table_tr2 
+{
+   width:386px;
+   height:132px;
+}
+
+.barcoded_table_tr3 
+{
+    width:386px;
+    height:57px;
+}
+
+.barcoded_table_tr4 
+{
+    width:386px;
+    height:57px;
+}
+
+.barcoded_table_tr5 
+{
+    width:386px;
+    height:163px;
+}
+
+
+/*列*/
+.cbt_tr1td1 
+{
+    vertical-align:top;
+    border-bottom:1px solid #000;
+}
+
+.cbt_tr2td1 
+{
+    vertical-align:middle;
+    border-bottom:1px solid #000;
+}
+.cbt_tr3td1 
+{
+    vertical-align:top;
+    border-bottom:1px solid #000;
+}
+.cbt_tr4td1 
+{
+    vertical-align:top;
+    border-bottom:1px solid  #000;
+    width:50%;
+}
+
+.cbt_tr4td2 
+{
+    vertical-align:top;
+    border-left:1px solid #000;
+    width:50%;
+    border-bottom:1px solid #000;
+}
+.cbt_tr5td1 
+{
+    vertical-align:top; 
+}
+
+
+/*标题区域*/
+.tdTitle
+{
+    margin-left:5px;
+    font-size:10px; 
+}
+.OperationImformationTitle
+{
+    margin-left:5px;
+    font-size:15px; 
+}
+/*内容区域*/
+.tr_tdContent
+{
+     margin-left:5px;
+     text-align:left;
+     font-size:21px;
+     width:0px auto; 
+}
+.tr1_tdContent
+{
+     margin-top:5px;
+     text-align:center;
+     font-size:21px;
+     width:0px auto;
+}
+.tr2_tdContent
+{
+  margin-left:48px;
+  margin-top:0px; 
+  text-align:center;
+  vertical-align:middle;
+  overflow:hidden;
+}
+.tr3_tdContent
+{
+   text-align:center;
+   font-size:21px;
+   width:0px auto;
+}
+.tr5_OptionInformationTdContent
+{
+     margin-left:5px;
+     text-align:left;
+     font-size:15px;
+     text-transform:uppercase;
+     word-wrap:break-word; /*文字超越宽度自动换行*/
+     width:0px auto;
+}
+.optionInformationBarcode
+{
+    overflow:hidden;
+    display:none; 
+    margin-top:20px; 
+    text-align:left;
+ }
+/*拖动*/
+.dragElement
+{
+  cursor:pointer; 
+}
+
+/*取打印份数*/
+.pcs
+{
+}
+
+.divButtonLayout
+{
+    margin-top:20px;
+    margin: 20px 0 20px 5px;
+    float:left;
+    text-align:left; 
+} 
+
+
+
+/* 按钮 */
+.btn {
+    background: url(../images/Common/form-btn.gif) no-repeat scroll 0 0 transparent;
+    color: #333333;
+    cursor: pointer;
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    margin-right: 2px;
+    padding-left: 15px;
+    text-align: center;
+    font-size:13px; 
+}
+
+.btn-primary {
+    background-position: 0 -56px;
+    color: #FFFFFF;
+}
+
+.btn-disabled
+{
+    color: #999999;
+    cursor: not-allowed;
+    background-position:0 -28px;
+}
+
+.btn span {
+    background: url(../images/Common/form-btn.gif) no-repeat scroll 100% 0 transparent;
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    margin-right: -2px;
+    overflow: hidden;
+    padding-right: 15px;
+}
+.btn-primary span {
+    background-position: 100% -56px;
+    height: 28px;
+    line-height: 28px;
+}
+
+a.btn.btn-disabled {
+    background-position: 0 -28px;
+    color: #999999;
+    cursor: not-allowed;
+}
+a.btn.btn-disabled span {
+    background-position: 100% -28px;
+}
+

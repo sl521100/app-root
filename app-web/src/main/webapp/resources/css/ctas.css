@@ -1,0 +1,449 @@
+﻿input.inputText, select, table.table-form {
+    width: 100%;
+}
+
+h1.fTitle {
+    margin: 50px 0 0 0;
+}
+
+h2.fTitle {
+    background: #fff;
+}
+
+h3.fTitle {
+    background: #efefef;
+    text-indent: 10px;
+    padding: 5px 0 5px 0;
+    font-size:14px;
+}
+
+h3.fLine {
+    text-indent: 10px;
+    padding: 5px 0 5px 0;
+    font-size:14px;
+    border-bottom: solid  1px #ccc;
+}
+
+input.lw20 {
+    width: 20px;
+}
+
+.table-form td {
+    padding-right: 5px;
+}
+
+.inputAwbNo {
+    height: 60px;
+    line-height: 60px;
+    margin: 10px 0;
+    color: #666;
+    width: 400px !important;
+    font-size: 48px;
+    text-align: center;
+    border: solid 1px #efefef;
+}
+
+h3.spanTitle {
+    color: #f23939;
+    font-weight: bold;
+}
+
+.Common .AwbPre {
+    width: 40px;
+}
+
+.Common .AwbNo {
+    width: 90px;
+}
+
+.mustinput {
+    background: #ff9;
+}
+
+.disableinput {
+    background: #efefef;
+}
+
+.formContainer .table-form td {
+    height: auto;
+}
+
+.formContainer .table-form td.label {
+    height: auto;
+    padding:3px 3px;
+    text-align:right;
+    vertical-align: bottom;
+}
+
+
+.formContainer .formbox-title {
+    width: auto !important;
+    float: none;
+}
+
+.formContainer select {
+    width: auto !important;
+}
+
+.Tlist th {
+    padding: 0 5px;
+}
+
+.Tlist .btn {
+    vertical-align: top;
+}
+
+.Tlist .formbox-title {
+    text-align: center;
+    float: none;
+}
+
+.sendrecive .formbox-title {
+    width: 40px;
+}
+
+.sendrecive td {
+    padding: 0px 8px;
+}
+
+.sendrecive .table-form td {
+    padding: 0px 0;
+}
+
+.sendrecive fieldset {
+    border: 1px dashed #E4E4E4;
+    padding: 10px;
+}
+
+.formContainer {
+    padding-top: 5px;
+    width: 960px;
+    margin: 0 auto;
+    clear: both;
+}
+
+.formContainer .taTitle .formbox-title {
+    width: 82px !important;
+}
+
+.disabledTextBox {
+    background-color: #CCC;
+}
+
+.highlight {
+    background-color: #95c4e4;
+}
+
+.hcolorWithHand {
+    cursor: pointer;
+}
+
+/*---*/
+input:focus, textarea:focus {
+    background-color: #FBFAB4;
+}
+
+input[type="file"]:focus, input[type="checkbox"]:focus, select:focus {
+    background-color: #FBFAB4;
+}
+
+.btn em {
+    text-decoration: underline;
+}
+
+.hight-light-bg {
+    background-color: #FBFAB4;
+}
+
+.btn-primary:hover {
+    background-position: 0 -84px;
+    color: #FFFFFF;
+}
+
+.highline {
+    background-color: #95c4e4;
+}
+
+div.form fieldset {
+    border: 1px dashed #999;
+    margin-bottom: 8px;
+}
+
+div.form fieldset legend {
+    margin: 0 10px;
+    padding: 0 5px
+}
+
+input.inputText, select, table.table-form {
+    width: 100%;
+}
+
+input.lw20 {
+    width: 20px;
+}
+
+.inputAwbNo {
+    height: 60px;
+    line-height: 60px;
+    margin: 10px 0;
+    color: #666;
+    width: 400px !important;
+    font-size: 48px;
+    text-align: center;
+    border: solid 1px #efefef;
+}
+
+h3.spanTitle {
+    color: #f23939;
+    font-weight: bold;
+}
+
+.mustInputText {
+    line-height: 20px;
+    height: 20px;
+    font-size: 9pt;
+    border: 1px solid #e4e4e4;
+    background: #ff9;
+}
+
+
+.Tlist th {
+    padding: 0 5px;
+}
+
+.Tlist .btn {
+    vertical-align: top;
+}
+
+.Tlist .formbox-title {
+    text-align: center;
+    float: none;
+}
+
+.disabledTextBox {
+    background-color: #CCC;
+}
+
+.highlight {
+    background-color: #95c4e4;
+}
+
+.hcolorWithHand {
+    cursor: pointer;
+}
+
+/*---*/
+input:focus, textarea:focus {
+    background-color: #FBFAB4;
+}
+
+input[type="file"]:focus, input[type="checkbox"]:focus, select:focus {
+    background-color: #FBFAB4;
+}
+
+.btn em {
+    text-decoration: underline;
+}
+
+.hight-light-bg {
+    background-color: #FBFAB4;
+}
+
+.btn-primary:hover {
+    background-position: 0 -84px;
+    color: #FFFFFF;
+}
+
+div.form fieldset {
+    border: 1px dashed #999;
+    margin-bottom: 8px;
+}
+
+div.form fieldset legend {
+    margin: 0 10px;
+    padding: 0 5px
+}
+
+.clearboth {
+    clear: both;
+}
+
+.noime {
+    ime-mode: Disabled;
+}
+
+.nostar {
+    margin-left: 9px;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    _vertical-align: -1px;
+    vertical-align: -2px;
+}
+
+input[type="radio"] {
+    width: 18px;
+    _vertical-align: -1px;
+    vertical-align: -2px;
+}
+
+.ml9 {
+    margin-left: 9px;
+}
+
+.fleft {
+    float: left;
+}
+
+.fright {
+    float: right;
+}
+
+.none {
+    display: none;
+}
+
+.w300 {
+    width: 300px !important;
+}
+
+.w250 {
+    width: 250px !important;
+}
+
+.w200 {
+    width: 200px !important;
+}
+
+.w190 {
+    width: 190px !important;
+}
+
+.w180 {
+    width: 180px !important;
+}
+
+.w170 {
+    width: 170px !important;
+}
+
+.w160 {
+    width: 160px !important;
+}
+
+.w150 {
+    width: 150px !important;
+}
+
+.w140 {
+    width: 140px !important;
+}
+
+.w130 {
+    width: 130px !important;
+}
+
+.w120 {
+    width: 120px !important;
+}
+
+.w110 {
+    width: 110px !important;
+}
+
+.w100 {
+    width: 100px !important;
+}
+
+.w90 {
+    width: 90px !important;
+}
+
+.w80 {
+    width: 80px !important;
+}
+
+.w70 {
+    width: 70px !important;
+}
+
+.w60 {
+    width: 60px !important;
+}
+
+.w50 {
+    width: 50px !important;
+}
+
+.w40 {
+    width: 40px !important;
+}
+
+.w30 {
+    width: 30px !important;
+}
+
+.w120 {
+    width: 120px !important;
+}
+
+.w99percent {
+    width: 99%;
+}
+
+.report input[type="text"] {
+    width: 50px;
+}
+
+.alignbtn {
+    height: 28px;
+    line-height: 28px;
+}
+
+.divalignbtn {
+    float: left;
+    height: 28px;
+    line-height: 28px;
+}
+
+.dtitle {
+    background: none repeat scroll 0 0 #EFEFEF;
+    padding: 5px;
+    font-size: 10pt;
+}
+
+.wrap {
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+/**---loading层----begin=> **/
+#_m{
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+    height:100%;
+    background-color:#666;
+    z-index:9999;
+    filter:alpha(opacity=75);
+    -moz-opacity:0.75;
+    opacity:0.75;
+}
+
+#_lo{
+    position:absolute;
+    width:180px;
+    height:60px;
+    background:#fff;
+    top:50%;
+    left:50%;
+    margin-left:-90px;
+    margin-top:-30px;
+    text-align:center;
+    padding-top:20px;
+    z-index:10000;
+}
+/**---loading层---- <=end **/

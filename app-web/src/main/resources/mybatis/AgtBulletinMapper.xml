@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.AgtBulletinMapper">
+  <resultMap id="BaseResultMap" type="ctas.entity.AgtBulletin">
+    <result column="DAYFLAG" property="dayflag" jdbcType="DECIMAL" />
+    <result column="CGO" property="cgo" jdbcType="DECIMAL" />
+    <result column="CGOFEE" property="cgofee" jdbcType="DECIMAL" />
+    <result column="CGORATE" property="cgorate" jdbcType="DECIMAL" />
+    <result column="CGOFEERATE" property="cgofeerate" jdbcType="DECIMAL" />
+    <result column="CGOE" property="cgoe" jdbcType="DECIMAL" />
+    <result column="CGOEFEE" property="cgoefee" jdbcType="DECIMAL" />
+    <result column="CGOERATE" property="cgoerate" jdbcType="DECIMAL" />
+    <result column="CGOEFEERATE" property="cgoefeerate" jdbcType="DECIMAL" />
+    <result column="ADJUSTWEIGHT" property="adjustweight" jdbcType="DECIMAL" />
+    <result column="ADJUSTMONEY" property="adjustmoney" jdbcType="DECIMAL" />
+    <result column="ADJUSTMONEY1" property="adjustmoney1" jdbcType="DECIMAL" />
+    <result column="EXPRESSMONEY" property="expressmoney" jdbcType="DECIMAL" />
+    <result column="EXPRESSMONEY1" property="expressmoney1" jdbcType="DECIMAL" />
+    <result column="BUPMONEY" property="bupmoney" jdbcType="DECIMAL" />
+    <result column="BUPMONEY1" property="bupmoney1" jdbcType="DECIMAL" />
+    <result column="MAIN" property="main" jdbcType="DECIMAL" />
+    <result column="MAIN1" property="main1" jdbcType="DECIMAL" />
+    <result column="CHARTER" property="charter" jdbcType="DECIMAL" />
+    <result column="ADJUSTMONEY2" property="adjustmoney2" jdbcType="DECIMAL" />
+    <result column="DZF" property="dzf" jdbcType="DECIMAL" />
+    <result column="DOM" property="dom" jdbcType="DECIMAL" />
+    <result column="DKV" property="dkv" jdbcType="DECIMAL" />
+    <result column="SCENE" property="scene" jdbcType="DECIMAL" />
+    <result column="EXPRESS1" property="express1" jdbcType="DECIMAL" />
+    <result column="BOZTON" property="bozton" jdbcType="DECIMAL" />
+    <result column="ARR" property="arr" jdbcType="DECIMAL" />
+    <result column="CIQ" property="ciq" jdbcType="DECIMAL" />
+    <result column="DRAYAGE" property="drayage" jdbcType="DECIMAL" />
+    <result column="F4STORE" property="f4store" jdbcType="DECIMAL" />
+    <result column="HOUSEFEE" property="housefee" jdbcType="DECIMAL" />
+    <result column="RED" property="red" jdbcType="DECIMAL" />
+    <result column="NET" property="net" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CRTOPER" property="crtoper" jdbcType="VARCHAR" />
+    <result column="CRTOPER_NAME" property="crtoperName" jdbcType="VARCHAR" />
+    <result column="CRTOPETIME" property="crtopetime" jdbcType="TIMESTAMP" />
+    <result column="BILLDATE" property="billdate" jdbcType="TIMESTAMP" />
+    <result column="REDNOTE" property="rednote" jdbcType="VARCHAR" />
+    <result column="NETNOTE" property="netnote" jdbcType="VARCHAR" />
+    <result column="ADJUST2NOTE" property="adjust2note" jdbcType="VARCHAR" />
+    <result column="EST_TYPE" property="estType" jdbcType="VARCHAR" />
+    <result column="EST_DATE" property="estDate" jdbcType="DECIMAL" />
+    <result column="EST_BEGDATE" property="estBegdate" jdbcType="DECIMAL" />
+    <result column="EST_ENDDATE" property="estEnddate" jdbcType="DECIMAL" />
+    <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR" />
+    <result column="STORE_TYPE" property="storeType" jdbcType="CHAR" />
+  </resultMap>
+  <select id="getAllDayFlags" resultType="java.lang.Integer">
+    select distinct(DAYFLAG) as DAYFLAG 
+    from ctas_AGT_BULLETIN 
+    where DAYFLAG is not null 
+    and DAYFLAG >0 
+    <choose>
+	  <when test="storeType!=null and storeType.length()>0">
+	  and STORE_TYPE=#{storeType,jdbcType=CHAR}
+	  </when>
+	  <otherwise>  
+	  and STORE_TYPE='M' 
+      </otherwise> 
+    </choose>
+    <!-- and CRTOPER=#{creator,jdbcType=VARCHAR} -->
+    and COMPANY_CODE=#{companyCode,jdbcType=VARCHAR} 
+    order by DAYFLAG desc
+  </select>
+  <select id="getBulletinByDayFlag" resultMap="BaseResultMap">
+    select * 
+    from ctas_AGT_BULLETIN 
+    where DAYFLAG =#{flag,jdbcType=DECIMAL} 
+    <choose>
+	  <when test="storeType!=null and storeType.length()>0">
+	  and STORE_TYPE=#{storeType,jdbcType=CHAR}
+	  </when>
+	  <otherwise>  
+	  and STORE_TYPE='M' 
+      </otherwise> 
+    </choose>
+    <!-- and CRTOPER=#{creator,jdbcType=VARCHAR} --> 
+    and COMPANY_CODE=#{companyCode,jdbcType=VARCHAR} 
+    order by CRTOPETIME desc
+  </select>
+  <insert id="insertBulletin" parameterType="ctas.entity.AgtBulletin">
+    insert into CTAS_AGT_BULLETIN (DAYFLAG, CGO, CGOFEE, 
+      CGORATE, CGOFEERATE, CGOE, 
+      CGOEFEE, CGOERATE, CGOEFEERATE, 
+      ADJUSTWEIGHT, ADJUSTMONEY, ADJUSTMONEY1, 
+      EXPRESSMONEY, EXPRESSMONEY1, BUPMONEY, 
+      BUPMONEY1, MAIN, MAIN1, 
+      CHARTER, ADJUSTMONEY2, DZF, 
+      DOM, DKV, SCENE, EXPRESS1, 
+      BOZTON, ARR, CIQ, DRAYAGE, 
+      F4STORE, HOUSEFEE, RED, 
+      NET, REMARK, CRTOPER, 
+      CRTOPER_NAME, CRTOPETIME, BILLDATE, 
+      REDNOTE, NETNOTE, ADJUST2NOTE, 
+      EST_TYPE, EST_DATE, EST_BEGDATE, 
+      EST_ENDDATE,COMPANY_CODE,STORE_TYPE)
+    values (#{dayflag,jdbcType=DECIMAL}, #{cgo,jdbcType=DECIMAL}, #{cgofee,jdbcType=DECIMAL}, 
+      #{cgorate,jdbcType=DECIMAL}, #{cgofeerate,jdbcType=DECIMAL}, #{cgoe,jdbcType=DECIMAL}, 
+      #{cgoefee,jdbcType=DECIMAL}, #{cgoerate,jdbcType=DECIMAL}, #{cgoefeerate,jdbcType=DECIMAL}, 
+      #{adjustweight,jdbcType=DECIMAL}, #{adjustmoney,jdbcType=DECIMAL}, #{adjustmoney1,jdbcType=DECIMAL}, 
+      #{expressmoney,jdbcType=DECIMAL}, #{expressmoney1,jdbcType=DECIMAL}, #{bupmoney,jdbcType=DECIMAL}, 
+      #{bupmoney1,jdbcType=DECIMAL}, #{main,jdbcType=DECIMAL}, #{main1,jdbcType=DECIMAL}, 
+      #{charter,jdbcType=DECIMAL}, #{adjustmoney2,jdbcType=DECIMAL}, #{dzf,jdbcType=DECIMAL}, 
+      #{dom,jdbcType=DECIMAL}, #{dkv,jdbcType=DECIMAL}, #{scene,jdbcType=DECIMAL}, #{express1,jdbcType=DECIMAL}, 
+      #{bozton,jdbcType=DECIMAL}, #{arr,jdbcType=DECIMAL}, #{ciq,jdbcType=DECIMAL}, #{drayage,jdbcType=DECIMAL}, 
+      #{f4store,jdbcType=DECIMAL}, #{housefee,jdbcType=DECIMAL}, #{red,jdbcType=DECIMAL}, 
+      #{net,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{crtoper,jdbcType=VARCHAR}, 
+      #{crtoperName,jdbcType=VARCHAR}, #{crtopetime,jdbcType=TIMESTAMP}, #{billdate,jdbcType=TIMESTAMP}, 
+      #{rednote,jdbcType=VARCHAR}, #{netnote,jdbcType=VARCHAR}, #{adjust2note,jdbcType=VARCHAR}, 
+      #{estType,jdbcType=VARCHAR}, #{estDate,jdbcType=DECIMAL}, #{estBegdate,jdbcType=DECIMAL}, 
+      #{estEnddate,jdbcType=DECIMAL},#{companyCode,jdbcType=VARCHAR},#{storeType,jdbcType=CHAR})
+  </insert>
+
+
+</mapper>
+

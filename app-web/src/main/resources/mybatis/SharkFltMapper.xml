@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.SharkFltMapper">
+  <resultMap id="BaseResultMap" type="ctas.entity.SharkFlt">
+    <id column="REC_ID" property="recId" jdbcType="DECIMAL"/>
+    <result column="AWB_TYPE" property="awbType" jdbcType="VARCHAR"/>
+    <result column="AWB_PRE" property="awbPre" jdbcType="VARCHAR"/>
+    <result column="AWB_NO" property="awbNo" jdbcType="VARCHAR"/>
+    <result column="PCS" property="pcs" jdbcType="DECIMAL"/>
+    <result column="WEIGHT" property="weight" jdbcType="DECIMAL"/>
+    <result column="CARRIER" property="carrier" jdbcType="VARCHAR"/>
+    <result column="FLIGHT_NO" property="flightNo" jdbcType="VARCHAR"/>
+    <result column="FLIGHT_DATE" property="flightDate" jdbcType="TIMESTAMP"/>
+    <result column="ORIGIN" property="origin" jdbcType="VARCHAR"/>
+    <result column="DEST" property="dest" jdbcType="VARCHAR"/>
+    <result column="DI" property="di" jdbcType="CHAR"/>
+    <result column="EI" property="ei" jdbcType="CHAR"/>
+    <result column="PLANE_NO" property="planeNo" jdbcType="VARCHAR"/>
+    <result column="FEE_WEIGHT" property="feeWeight" jdbcType="DECIMAL"/>
+    <result column="TRAN_REMARK" property="tranRemark" jdbcType="CHAR"/>
+    <result column="FLIGHT_TYPE" property="flightType" jdbcType="CHAR"/>
+    <result column="AWB_ORIGIN" property="awbOrigin" jdbcType="VARCHAR"/>
+    <result column="AWB_DEST" property="awbDest" jdbcType="VARCHAR"/>
+    <result column="FDS_REC_ID" property="fdsRecId" jdbcType="DECIMAL"/>
+    <result column="CUSTOM_CTL" property="customCtl" jdbcType="CHAR"/>
+    <result column="AIRCRAFT_TYPE_ID" property="aircraftTypeId" jdbcType="VARCHAR"/>
+    <result column="ALL_SPE_COPE_ID" property="allSpeCopeId" jdbcType="VARCHAR"/>
+    <result column="CSG_CUSTOMER_SHORT_NM" property="csgCustomerShortNm" jdbcType="VARCHAR"/>
+    <result column="FLT_DI" property="fltDi" jdbcType="CHAR"/>
+    <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+    <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+  </resultMap>
+    <sql id="Excel_Condition_List">
+        WHERE
+        <choose>
+            <!--新航加上战略伙伴为其承运的货量-->
+            <when test="carrier == 'SQ'">
+                ((AWB_PRE = '618'  and  (A.CARRIER = 'CK' OR A.CARRIER = 'MU' OR A.CARRIER = 'FM')) or  A.CARRIER = #{carrier,jdbcType=VARCHAR})
+            </when>
+            <!--NH货量要算上浦东5X航班-->
+            <when test="carrier == 'NH'">
+                ((A.CARRIER = '5X' AND (A.ORIGIN = 'PVG' OR A.DEST = 'PVG')) or A.CARRIER = #{carrier,jdbcType=VARCHAR})
+            </when>
+            <otherwise>
+                A.CARRIER = #{carrier,jdbcType=VARCHAR}
+            </otherwise>
+        </choose>
+        AND A.FLIGHT_DATE BETWEEN #{beginDate,jdbcType=TIMESTAMP} AND #{endDate,jdbcType=TIMESTAMP}
+        AND A.DI = #{di,jdbcType=VARCHAR}
+        AND A.EI = #{ei,jdbcType=VARCHAR}
+        AND A.COMPANY_CODE = #{companyCode,jdbcType=VARCHAR}
+        <if test="flightNo != null and '' != flightNo">
+            AND A.FLIGHT_NO = #{flightNo,jdbcType=VARCHAR}
+        </if>
+        <if test="origin != null and '' != origin">
+            AND A.ORIGIN = #{origin,jdbcType=VARCHAR}
+        </if>
+        <if test="dest != null and '' != dest">
+            AND A.DEST = #{dest,jdbcType=VARCHAR}
+        </if>
+        <if test="tranRemark != null and '' != tranRemark">
+            AND A.TRAN_REMARK = #{tranRemark,jdbcType=VARCHAR}
+        </if>
+        <if test="stockTypeId != null and '' != stockTypeId">
+            <choose>
+                <when test="stockTypeId == 'AWBM'">
+                    AND A.AWB_TYPE = #{stockTypeId,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    AND A.AWB_TYPE != 'AWBM'
+                </otherwise>
+            </choose>
+        </if>
+        <if test="liFlagf != null and '' != liFlagf">
+            <choose>
+                <when test="liFlagf == 'D'.toString()">
+                    AND F_BAS_GET_AIRPORTDOMINT(A.ORIGIN)= #{liFlagf,jdbcType=VARCHAR} AND F_BAS_GET_AIRPORTDOMINT(A.DEST)=  #{liFlagf,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    AND (F_BAS_GET_AIRPORTDOMINT(A.ORIGIN)= #{liFlagf,jdbcType=VARCHAR} OR F_BAS_GET_AIRPORTDOMINT(A.DEST)=  #{liFlagf,jdbcType=VARCHAR})
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
+    <select id="countFltForExcelByCarrier" parameterType="java.util.Map" resultType="ctas.bill.calculator.dto.carrier.FlightSummaryDto">
+        SELECT CARRIER,
+            FLIGHT_NO as FlightNo,
+            SUM(NVL(PCS, 0)) PCS,
+            round(SUM(NVL(WEIGHT, 0)), 1) WEIGHT,
+            round(SUM(NVL(FEE_WEIGHT, 0)), 1) as feeWeight
+            FROM CTAS_SHARK_FLT_LOCK A LEFT JOIN V_CTAS_FLT_AIRCRAFTTYPE_GEN B ON  A.AIRCRAFT_TYPE_ID = B.AIRCRAFTTYPEID
+            <include refid="Excel_Condition_List"></include>
+        GROUP BY CARRIER,
+          FLIGHT_NO
+    </select>
+  
+</mapper>

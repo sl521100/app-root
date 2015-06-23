@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.SharkDetailFltMapper">
+    <resultMap id="FltDetailDtoResultMap" type="ctas.web.dto.sharkdetail.flt.FltDetailDto">
+        <id column="REC_ID" property="recId" jdbcType="DECIMAL"/>
+        <result column="AWB_TYPE" property="awbType" jdbcType="VARCHAR"/>
+        <result column="AWB_PRE" property="awbPre" jdbcType="VARCHAR"/>
+        <result column="AWB_NO" property="awbNo" jdbcType="VARCHAR"/>
+        <result column="PCS" property="pcs" jdbcType="DECIMAL"/>
+        <result column="WEIGHT" property="weight" jdbcType="DECIMAL"/>
+        <result column="CARRIER" property="carrier" jdbcType="VARCHAR"/>
+        <result column="FLIGHT_NO" property="flightNo" jdbcType="VARCHAR"/>
+        <result column="FLIGHT_DATE" property="flightDate" jdbcType="TIMESTAMP"/>
+        <result column="ORIGIN" property="origin" jdbcType="VARCHAR"/>
+        <result column="DEST" property="dest" jdbcType="VARCHAR"/>
+        <result column="DI" property="di" jdbcType="CHAR"/>
+        <result column="EI" property="ei" jdbcType="CHAR"/>
+        <result column="PLANE_NO" property="planeNo" jdbcType="VARCHAR"/>
+        <result column="FEE_WEIGHT" property="feeWeight" jdbcType="DECIMAL"/>
+        <result column="TRAN_REMARK" property="tranRemark" jdbcType="CHAR"/>
+        <result column="FLIGHT_TYPE" property="flightType" jdbcType="CHAR"/>
+        <result column="AWB_ORIGIN" property="awbOrigin" jdbcType="VARCHAR"/>
+        <result column="AWB_DEST" property="awbDest" jdbcType="VARCHAR"/>
+        <result column="FDS_REC_ID" property="fdsRecId" jdbcType="DECIMAL"/>
+        <result column="CUSTOM_CTL" property="customCtl" jdbcType="CHAR"/>
+        <result column="AIRCRAFT_TYPE_ID" property="aircraftTypeId" jdbcType="VARCHAR"/>
+        <result column="ALL_SPE_COPE_ID" property="allSpeCopeId" jdbcType="VARCHAR"/>
+        <result column="CSG_CUSTOMER_SHORT_NM" property="csgCustomerShortNm" jdbcType="VARCHAR"/>
+        <result column="FLT_DI" property="fltDi" jdbcType="CHAR"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+        <!--<result column="REMARK" property="remark" jdbcType="VARCHAR"/>-->
+    </resultMap>
+
+    <!--各航班汇总界面的货量查询条件-->
+    <sql id="querySharkFltWhere">
+        <!--承运人-->
+        <if test="carrier != null">
+            AND A.CARRIER = #{carrier,jdbcType=VARCHAR}
+        </if>
+        <!--航班号-->
+        <if test="flightNo != null">
+            AND A.FLIGHT_NO = #{flightNo,jdbcType=VARCHAR}
+        </if>
+        <!--国际国内-->
+        <if test="di != null">
+            AND A.DI = #{di,jdbcType=VARCHAR}
+        </if>
+        <!--直达中转-->
+        <if test="tranRemark != null">
+            AND A.TRAN_REMARK = #{tranRemark,jdbcType=VARCHAR}
+        </if>
+        <!--始发站-->
+        <if test="origin != null">
+            AND A.ORIGIN = #{origin,jdbcType=VARCHAR}
+        </if>
+        <!--目的站-->
+        <if test="dest != null">
+            AND A.DEST = #{dest,jdbcType=VARCHAR}
+        </if>
+        <!--运单类型-->
+        <if test="awbType != null">
+            AND A.AWB_TYPE = #{awbType,jdbcType=VARCHAR}
+        </if>
+        <!--运单前缀-->
+        <if test="awbPre != null">
+            AND A.AWB_PRE = #{awbPre,jdbcType=VARCHAR}
+        </if>
+        <!--运单号-->
+        <if test="awbNo != null">
+            AND A.AWB_NO = #{awbNo,jdbcType=VARCHAR}
+        </if>
+        <!--进出港-->
+        <if test="ei != null">
+            AND A.EI = #{ei,jdbcType=VARCHAR}
+        </if>
+        <!--航班国际国内-->
+        <if test="fltDi != null">
+            AND A.FLT_DI = #{fltDI,jdbcType=VARCHAR}
+        </if>
+        <!--统计货包机-->
+        <if test="flightType != null">
+            AND A.FLIGHT_TYPE = #{flightType,jdbcType=VARCHAR}
+        </if>
+        <!--平台公司编码-->
+        <if test="companyCode != null">
+            AND A.COMPANY_CODE = #{companyCode,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <!--航班货量明细查询sql-->
+    <select id="querySharkFltDetail" resultMap="FltDetailDtoResultMap" parameterType="java.util.Map">
+        SELECT
+        A.CARRIER,
+        A.FLIGHT_NO,
+        A.FLIGHT_DATE,
+        A.AWB_PRE,
+        A.AWB_NO,
+        A.PCS,
+        A.WEIGHT,
+        A.FEE_WEIGHT,
+        A.PLANE_NO
+        FROM CTAS_SHARK_FLT A
+        WHERE A.FLIGHT_DATE BETWEEN #{beginDate,jdbcType=TIMESTAMP} AND #{endDate,jdbcType=TIMESTAMP}
+        <include refid="querySharkFltWhere"/>
+        ORDER BY A.CARRIER,
+        A.FLIGHT_NO,
+        A.FLIGHT_DATE
+    </select>
+
+</mapper>

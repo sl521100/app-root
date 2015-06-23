@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.FeeExpressMapper">
+
+    <resultMap id="FeeExpressResultDto" type="ctas.web.dto.sharkdetail.agt.FeeAgtDetailDto">
+        <!--CTAS_FEE_BASE部分-->
+        <id column="REC_ID" property="recId" jdbcType="DECIMAL"/>
+        <result column="AWB_PRE" property="awbPre" jdbcType="VARCHAR"/>
+        <result column="AWB_NO" property="awbNo" jdbcType="VARCHAR"/>
+        <result column="AWB_NUMBER" property="awbNumber" jdbcType="VARCHAR"/>
+        <result column="AGENT_CODE" property="agentCode" jdbcType="VARCHAR"/>
+        <result column="FLIGHT_NO" property="flightNo" jdbcType="VARCHAR"/>
+        <result column="WEIGHT" property="weight" jdbcType="DECIMAL"/>
+        <result column="FEE" property="fee" jdbcType="DECIMAL"/>
+        <result column="OCCR_TIME" property="occrTime" jdbcType="TIMESTAMP"/>
+        <result column="BILL_NO" property="billNo" jdbcType="DECIMAL"/>
+        <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="FEE_DIC_KEY" property="feeDicKey" jdbcType="VARCHAR"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+        <result column="DI" property="di" jdbcType="VARCHAR"/>
+        <result column="EI" property="ei" jdbcType="VARCHAR"/>
+        <result column="CARGO_MAIL_FLAG" property="cargoMailFlag" jdbcType="VARCHAR"/>
+        <result column="OPE_STATION" property="opeStation" jdbcType="VARCHAR"/>
+
+        <!--CTAS_FEE_EXPRESS部分-->
+        <result column="BASE_REC_ID" property="baseRecId" jdbcType="DECIMAL"/>
+        <result column="CARRIER" property="carrier" jdbcType="VARCHAR"/>
+        <result column="FLIGHT_DATE" property="flightDate" jdbcType="TIMESTAMP"/>
+        <result column="DEPOT" property="depot" jdbcType="VARCHAR"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <!--快件明细查询sql-->
+    <select id="queryFeeExpressDtos" resultMap="FeeExpressResultDto" parameterType="java.util.Map">
+        select b.agent_code as agtCode,
+        b.awb_number as awbNumber,
+        e.carrier || b.flight_no as flightNo,
+        e.flight_date as flightDate,
+        b.weight,
+        b.fee,
+        e.depot as opestation
+        from ctas_fee_base b, ctas_fee_express e
+        where b.rec_id = e.base_rec_id
+        and b.fee_dic_key = #{feeDicKey,jdbcType=VARCHAR}
+        AND e.COMPANY_CODE=#{companyCode,jdbcType=VARCHAR}
+        <if test="carrier != null">
+            AND e.carrier = #{carrier,jdbcType=VARCHAR}
+        </if>
+        <if test="awbFullNo != null">
+            AND b.awb_number = #{awbFullNo,jdbcType=VARCHAR}
+        </if>
+        <if test="agentCode != null">
+            AND b.agent_code = #{agentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="opestation != null">
+            AND e.depot = #{opestation,jdbcType=VARCHAR}
+        </if>
+        <if test="eDate!=null">
+            and E.FLIGHT_DATE <![CDATA[<]]> = #{eDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="sDate!=null">
+            and E.FLIGHT_DATE >= #{sDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="flightNo!=null">
+            and b.flight_no=#{flightNo,jdbcType=VARCHAR}
+        </if>
+        order by E.FLIGHT_DATE
+    </select>
+
+    <!--快件明细 总计 查询sql-->
+    <select id="queryExpressTotal" resultMap="FeeExpressResultDto" parameterType="java.util.Map">
+        select
+        sum(b.weight) as weight,
+        sum(b.fee) as fee
+        from ctas_fee_base b, ctas_fee_express e
+        where b.rec_id = e.base_rec_id
+        and b.fee_dic_key = #{feeDicKey,jdbcType=VARCHAR}
+        AND e.COMPANY_CODE=#{companyCode,jdbcType=VARCHAR}
+        <if test="carrier != null">
+            AND e.carrier = #{carrier,jdbcType=VARCHAR}
+        </if>
+        <if test="awbFullNo != null">
+            AND b.awb_number = #{awbFullNo,jdbcType=VARCHAR}
+        </if>
+        <if test="agentCode != null">
+            AND b.agent_code = #{agentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="opestation != null">
+            AND e.depot = #{opestation,jdbcType=VARCHAR}
+        </if>
+        <if test="eDate!=null">
+            and E.FLIGHT_DATE <![CDATA[<]]> = #{eDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="sDate!=null">
+            and E.FLIGHT_DATE >= #{sDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="flightNo!=null">
+            and b.flight_no=#{flightNo,jdbcType=VARCHAR}
+        </if>
+    </select>
+</mapper>

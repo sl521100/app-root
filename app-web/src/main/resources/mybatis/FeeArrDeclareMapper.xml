@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.FeeArrDeclareMapper">
+
+
+    <resultMap id="ArrDeclareDtoResultDto" type="ctas.web.dto.sharkdetail.agt.FeeArrdeclareDto">
+        <!--CTAS_FEE_BASE部分-->
+        <id column="REC_ID" property="recId" jdbcType="DECIMAL"/>
+        <result column="AWB_PRE" property="awbPre" jdbcType="VARCHAR"/>
+        <result column="AWB_NO" property="awbNo" jdbcType="VARCHAR"/>
+        <result column="AWB_NUMBER" property="awbNumber" jdbcType="VARCHAR"/>
+        <result column="AGENT_CODE" property="agentCode" jdbcType="VARCHAR"/>
+        <result column="FLIGHT_NO" property="flightNo" jdbcType="VARCHAR"/>
+        <result column="WEIGHT" property="weight" jdbcType="DECIMAL"/>
+        <result column="FEE" property="fee" jdbcType="DECIMAL"/>
+        <result column="OCCR_TIME" property="occrTime" jdbcType="TIMESTAMP"/>
+        <result column="BILL_NO" property="billNo" jdbcType="DECIMAL"/>
+        <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="FEE_DIC_KEY" property="feeDicKey" jdbcType="VARCHAR"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+        <result column="DI" property="di" jdbcType="VARCHAR"/>
+        <result column="EI" property="ei" jdbcType="VARCHAR"/>
+        <result column="CARGO_MAIL_FLAG" property="cargoMailFlag" jdbcType="VARCHAR"/>
+        <result column="OPE_STATION" property="opeStation" jdbcType="VARCHAR"/>
+
+        <!--CTAS_FEE_RETURN部分-->
+        <result column="BASE_REC_ID" property="baseRecId" jdbcType="DECIMAL"/>
+        <result column="VOYAGE_NO" property="voyageNo" jdbcType="VARCHAR"/>
+        <result column="HAWB_NO" property="hawbNo" jdbcType="VARCHAR"/>
+        <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP"/>
+        <result column="INCU_SDB" property="incuSdb" jdbcType="VARCHAR"/>
+        <result column="RES_TEXT" property="resText" jdbcType="VARCHAR"/>
+        <result column="RES_TIME" property="resTime" jdbcType="VARCHAR"/>
+        <result column="FORM_ID" property="formId" jdbcType="VARCHAR"/>
+        <result column="FX_TIME" property="fxTime" jdbcType="VARCHAR"/>
+        <result column="FX_PIECE" property="fxPiece" jdbcType="DECIMAL"/>
+        <result column="FX_WEIGHT" property="fxWeight" jdbcType="DECIMAL"/>
+        <result column="ARR_PIECE" property="arrPiece" jdbcType="DECIMAL"/>
+        <result column="ARR_WEIGHT" property="arrWeight" jdbcType="DECIMAL"/>
+        <result column="OP_ID" property="opId" jdbcType="VARCHAR"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <!--运抵申报明细查询sql-->
+    <select id="queryArrDeclareDtos" resultMap="ArrDeclareDtoResultDto" parameterType="java.util.Map">
+        select
+        b.awb_number       as awbNumber,
+        a.hawb_no          as hawbNo,
+        a.send_time        as sendTime,
+        a.incu_sdb         as incuSdb,
+        a.fx_piece         as fxPcs,
+        a.fx_weight        as fxWt,
+        a.arr_piece        as arrPcs,
+        a.arr_weight       as arrWt,
+        a.op_id            as opId,
+        a.res_text         as resText,
+        a.res_time         as resTime,
+        a.form_id          as formId,
+        b.agent_code       as agtCode,
+        e.agent_short_name as agtShort,
+        e.agent_full_name  as agtFull,
+        b.flight_no        as flightNo,
+        a.FX_TIME          as fxTime
+        from ctas_fee_base b
+        join ctas_fee_arrdeclare a
+        on (b.rec_id = a.base_rec_id)
+        left join ctas_el_customer e
+        on (e.customer_short_name = b.agent_code and e.company_code = b.company_code)
+        where  b.fee_dic_key = #{feeDicKey,jdbcType=VARCHAR}
+        AND a.COMPANY_CODE=#{companyCode,jdbcType=VARCHAR}
+        <if test="eDate!=null">
+            and a.send_time <![CDATA[<]]> = #{eDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="sDate!=null">
+            and a.send_time >= #{sDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="agentCode != null">
+            AND b.agent_code = #{agentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="hAwbNo != null">
+            AND a.hawb_no = #{hAwbNo,jdbcType=VARCHAR}
+        </if>
+        <if test="awbFullNo != null">
+            AND b.awb_number = #{awbFullNo,jdbcType=VARCHAR}
+        </if>
+        <if test="flightNo != null">
+            AND B.flight_no = #{flightNo,jdbcType=VARCHAR}
+        </if>
+        ORDER BY a.send_time ASC
+    </select>
+
+    <!--运抵申报明细 总计 查询sql-->
+    <select id="queryArrTotal" resultMap="ArrDeclareDtoResultDto" parameterType="java.util.Map">
+        select sum(a.fx_piece) as fxPcs,
+        sum(a.fx_weight) as fxWt,
+        sum(a.arr_piece) as arrPcs,
+        sum(a.arr_weight) as arrWt
+        from ctas_fee_base b
+        join ctas_fee_arrdeclare a
+        on (b.rec_id = a.base_rec_id)
+        left join ctas_el_customer e
+        on (e.customer_short_name = b.agent_code and e.company_code = b.company_code)
+        where  b.fee_dic_key = #{feeDicKey,jdbcType=VARCHAR}
+        AND a.COMPANY_CODE=#{companyCode,jdbcType=VARCHAR}
+        <if test="eDate!=null">
+            and a.send_time <![CDATA[<]]> = #{eDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="sDate!=null">
+            and a.send_time >= #{sDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="agentCode != null">
+            AND b.agent_code = #{agentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="hAwbNo != null">
+            AND a.hawb_no = #{hAwbNo,jdbcType=VARCHAR}
+        </if>
+        <if test="awbFullNo != null">
+            AND b.awb_number = #{awbFullNo,jdbcType=VARCHAR}
+        </if>
+        <if test="flightNo != null">
+            AND B.flight_no = #{flightNo,jdbcType=VARCHAR}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.SharkAgentMapper">
+    <resultMap id="BaseResultMap" type="ctas.entity.SharkAgent">
+        <id column="REC_ID" property="recId" jdbcType="DECIMAL"/>
+        <result column="AWB_TYPE" property="awbType" jdbcType="VARCHAR"/>
+        <result column="AWB_PRE" property="awbPre" jdbcType="VARCHAR"/>
+        <result column="AWB_NO" property="awbNo" jdbcType="VARCHAR"/>
+        <result column="AGENT" property="agent" jdbcType="VARCHAR"/>
+        <result column="PCS" property="pcs" jdbcType="DECIMAL"/>
+        <result column="WEIGHT" property="weight" jdbcType="DECIMAL"/>
+        <result column="CARRIER" property="carrier" jdbcType="VARCHAR"/>
+        <result column="FLIGHT_NO" property="flightNo" jdbcType="VARCHAR"/>
+        <result column="FLIGHT_DATE" property="flightDate" jdbcType="TIMESTAMP"/>
+        <result column="ORIGIN" property="origin" jdbcType="VARCHAR"/>
+        <result column="DEST" property="dest" jdbcType="VARCHAR"/>
+        <result column="ISAGENT" property="isagent" jdbcType="CHAR"/>
+        <result column="DI" property="di" jdbcType="CHAR"/>
+        <result column="AWB_ORIGIN" property="awbOrigin" jdbcType="VARCHAR"/>
+        <result column="AWB_DEST" property="awbDest" jdbcType="VARCHAR"/>
+        <result column="SITA_FLAG" property="sitaFlag" jdbcType="CHAR"/>
+        <result column="HANDLEAGENT" property="handleagent" jdbcType="VARCHAR"/>
+        <result column="FDS_REC_ID" property="fdsRecId" jdbcType="DECIMAL"/>
+        <result column="SPECOPEID" property="specopeid" jdbcType="CHAR"/>
+        <result column="EI" property="ei" jdbcType="CHAR"/>
+        <result column="CUSTOM_CTL" property="customCtl" jdbcType="CHAR"/>
+        <result column="CARGOINFO" property="cargoinfo" jdbcType="VARCHAR"/>
+        <result column="ROUTE" property="route" jdbcType="VARCHAR"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="getAllSharkAgent" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+		select t.awb_pre || '-' || t.awb_no as awb_no,
+		t.agent,
+		t.pcs,
+		t.weight,
+		t.di,
+		t.flight_no,
+		t.flight_date,
+		t.origin,
+		t.dest
+		from ctas_shark_agent t
+		where t.di = 'D'
+		and t.isagent = 'Y'
+	</select>
+    <select id="getSharkAgentDetail" resultType="ctas.web.dto.sharkdetail.agt.SharkAgtDetailDto"
+            parameterType="java.util.Map">
+        select t.awb_pre || '-' || t.awb_no as awbNo,
+        nvl(t.agent, '') as agent,
+        t.pcs,
+        t.weight,
+        t.di,
+        t.carrier || t.flight_no as flightNo,
+        t.flight_date as flightDate,
+        t.origin,
+        t.dest,
+        t.handleagent,
+        t.remark,
+        decode(t.di, 'D', t.custom_ctl, '') as customCtl,
+        nvl(f.fee, 0) as fee,
+        t.specopeid
+        from ctas_shark_agent_lock t LEFT JOIN ctas_fee_base f ON t.awb_pre = f.awb_pre AND t.awb_no = f.awb_no
+        AND t.ei = f.ei AND t.company_code = f.company_code
+        <if test="awbType != null and '' != awbType">
+            AND f.cargo_mail_flag = #{awbType,jdbcType=VARCHAR}
+        </if>
+        <choose>
+            <when test="ei == 'E'.toString()">
+                AND f.agent_code = t.agent
+            </when>
+            <otherwise>
+                AND f.agent_code = t.handleagent
+            </otherwise>
+        </choose>
+        <if test="isAgent != null and '' != isAgent">
+            <choose>
+                <when test="isAgent == 'Y'.toString()">
+                    AND f.fee_dic_key = 'ACGO'
+                </when>
+                <otherwise>
+                    AND f.fee_dic_key = 'UACGO'
+                </otherwise>
+            </choose>
+        </if>
+        where t.flight_date BETWEEN #{beginDate,jdbcType=TIMESTAMP} AND #{endDate,jdbcType=TIMESTAMP}
+        AND t.ei = #{ei,jdbcType=VARCHAR} and t.COMPANY_CODE=#{companyCode,jdbcType=VARCHAR}
+        <choose>
+            <when test="ei == 'I'.toString()">
+                AND t.dest IN ('PVG','SHA') AND t.ei = 'I' AND (t.pcs !=0 OR t.weight != 0)
+                <if test="awbType != null and '' != awbType and awbType != 'AWBM'">
+                    AND t.awb_pre != 'ML'
+                </if>
+            </when>
+            <when test="ei == 'E'.toString()">
+                AND t.carrier != 'DM' AND t.origin IN ('PVG','SHA') AND t.ei = 'E' AND (t.pcs !=0 OR t.weight != 0)
+                <if test="awbType != null and '' != awbType and awbType != 'AWBM'">
+                    AND t.awb_pre != 'ML'
+                </if>
+            </when>
+        </choose>
+        <if test="carrier != null and '' != carrier">
+            AND t.carrier = #{carrier,jdbcType=VARCHAR}
+        </if>
+        <if test="flightNo != null and '' != flightNo">
+            AND t.flight_no = #{flightNo,jdbcType=VARCHAR}
+        </if>
+        <if test="origin != null and '' != origin">
+            AND t.origin = #{origin,jdbcType=VARCHAR}
+        </if>
+        <if test="dest != null and '' != dest">
+            AND t.dest = #{dest,jdbcType=VARCHAR}
+        </if>
+        <if test="di != null and '' != di">
+            <choose>
+                <when test="di == 'I'.toString()">
+                    AND (t.di = 'I' OR t.di = 'D' AND t.custom_ctl = 'Y')
+                </when>
+                <when test="di == 'D'.toString()">
+                    AND t.di = 'D' AND t.custom_ctl = 'N'
+                </when>
+                <when test="di == 'C'.toString()">
+                    AND t.di = 'D' AND t.custom_ctl = 'Y'
+                </when>
+                <when test="di == 'A'.toString()">
+                    AND t.di = 'I'
+                </when>
+            </choose>
+        </if>
+        <if test="isAgent != null and '' != isAgent">
+            <choose>
+                <when test="isAgent == 'N'.toString()">
+                    AND t.isAgent = #{isAgent,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    AND t.isAgent != 'N'
+                </otherwise>
+            </choose>
+        </if>
+        <if test="awbType != null and '' != awbType">
+            <choose>
+                <when test="awbType == 'AWBM'">
+                    AND t.awb_type = #{awbType,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    AND t.awb_type != 'AWBM'
+                </otherwise>
+            </choose>
+        </if>
+        <if test="agent != null and '' != agent">
+            <choose>
+                <when test="ei == 'I'.toString()">
+                    AND t.agent = #{agent,jdbcType=VARCHAR}
+                </when>
+                <when test="ei == 'E'.toString()">
+                    <choose>
+                        <when test="agent == 'DZF' and (di != null and di == 'I'.toString()) and (carrier != null and carrier == 'SK') and (origin != null and origin == 'PVG')">
+                            AND t.agent = #{agent,jdbcType=VARCHAR} AND t.ei = 'E'
+                        </when>
+                        <otherwise>
+                            AND t.handleagent = #{agent,jdbcType=VARCHAR}
+                        </otherwise>
+                    </choose>
+                </when>
+                <otherwise>
+                    AND ((t.ei = 'I' AND t.agent = #{agent,jdbcType=VARCHAR}) OR (t.ei = 'E' AND t.handleagent =
+                    #{agent,jdbcType=VARCHAR}))
+                </otherwise>
+            </choose>
+        </if>
+        <if test="agtGroups != null">
+            <choose>
+                <when test="ei == 'I'.toString()">
+                    AND t.agent IN
+                </when>
+                <when test="ei == 'E'.toString()">
+                    AND t.handleagent IN
+                </when>
+            </choose>
+            <foreach item="item" collection="agtGroups" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="awbPre != null and '' != awbPre">
+            AND t.awb_pre = #{awbPre,jdbcType=VARCHAR}
+        </if>
+        <if test="awbNo != null and '' != awbNo">
+            AND t.awb_no = #{awbNo,jdbcType=VARCHAR}
+        </if>
+        ORDER BY t.agent, t.handleagent, t.flight_no
+    </select>
+</mapper>

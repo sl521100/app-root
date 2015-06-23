@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.AgreementMapper">
+    <resultMap id="BaseResultMap" type="ctas.entity.Agreement">
+        <id column="REC_ID" property="recId" jdbcType="DECIMAL"/>
+        <result column="AGREEMENT_TYPE" property="agreementType" jdbcType="CHAR"/>
+        <result column="CARRIER_CODE" property="carrierCode" jdbcType="VARCHAR"/>
+        <result column="CARRIER_NAME" property="carrierName" jdbcType="VARCHAR"/>
+        <result column="AGENT_CODE" property="agentCode" jdbcType="VARCHAR"/>
+        <result column="AGENT_NAME" property="agentName" jdbcType="VARCHAR"/>
+        <result column="AGREEMENT_CODE" property="agreementCode" jdbcType="VARCHAR"/>
+        <result column="AGREEMENT_START_DATE" property="agreementStartDate" jdbcType="TIMESTAMP"/>
+        <result column="AGREEMENT_END_DATE" property="agreementEndDate" jdbcType="TIMESTAMP"/>
+        <result column="CURRENCY" property="currency" jdbcType="VARCHAR"/>
+        <result column="CURRENCY_DSC" property="currencyDsc" jdbcType="VARCHAR"/>
+        <result column="BILL_LANGUAGE" property="billLanguage" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="CREATE_OPE" property="createOpe" jdbcType="VARCHAR"/>
+        <result column="CREATE_NAME" property="createName" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="EXCEPT_FLAG" property="exceptFlag" jdbcType="CHAR"/>
+        <result column="FLT_EXCEPT_FLAG" property="fltExceptFlag" jdbcType="CHAR"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 查询费用协议 -->
+    <select id="queryFeeAgree" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select *
+        from ctas_agree t
+        where t.company_code=#{companyCode,jdbcType=VARCHAR}
+        <if test="agreeStartDate!=null">
+            and t.AGREEMENT_START_DATE <![CDATA[<]]> = #{agreeStartDate,jdbcType=TIMESTAMP}
+        </if>
+
+        <if test="agreeEndDate!=null">
+            and t.AGREEMENT_END_DATE >= #{agreeEndDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="carrier != null">
+            AND t.CARRIER_CODE = #{carrier,jdbcType=VARCHAR}
+        </if>
+        <if test="agreeType != null">
+            AND t.AGREEMENT_TYPE = #{agreeType,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--根据条件删除 -->
+    <delete id="deleteByMap" parameterType="java.util.Map">
+		delete from ctas_agree
+		where CREATE_TIME BETWEEN #{beginDate,jdbcType=TIMESTAMP} AND
+		#{endDate,jdbcType=TIMESTAMP} AND COMPANY_CODE =
+		#{companyCode,jdbcType=VARCHAR}
+	</delete>
+
+    <sql id="Base_Column_List">
+		REC_ID, AGREEMENT_TYPE, CARRIER_CODE, CARRIER_NAME, AGENT_CODE, AGENT_NAME,
+		AGREEMENT_CODE,
+		AGREEMENT_START_DATE, AGREEMENT_END_DATE, CURRENCY, CURRENCY_DSC, BILL_LANGUAGE,
+		REMARK, CREATE_OPE, CREATE_NAME, CREATE_TIME, EXCEPT_FLAG, FLT_EXCEPT_FLAG,
+		COMPANY_CODE
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from CTAS_AGREE
+        where REC_ID = #{recId,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from CTAS_AGREE
+		where REC_ID = #{recId,jdbcType=DECIMAL}
+	</delete>
+    <insert id="insert" parameterType="ctas.entity.Agreement">
+
+        <selectKey keyProperty="recId" order="BEFORE" resultType="Long">
+            select SEQ_CTAS_AGREE.NEXTVAL as recId from dual
+        </selectKey>
+
+        insert into CTAS_AGREE (REC_ID, AGREEMENT_TYPE, CARRIER_CODE,
+        CARRIER_NAME, AGENT_CODE, AGENT_NAME,
+        AGREEMENT_CODE, AGREEMENT_START_DATE, AGREEMENT_END_DATE,
+        CURRENCY, CURRENCY_DSC, BILL_LANGUAGE,
+        REMARK, CREATE_OPE, CREATE_NAME,
+        CREATE_TIME, EXCEPT_FLAG, FLT_EXCEPT_FLAG,
+        COMPANY_CODE)
+        values (#{recId,jdbcType=DECIMAL}, #{agreementType,jdbcType=CHAR},
+        #{carrierCode,jdbcType=VARCHAR},
+        #{carrierName,jdbcType=VARCHAR}, #{agentCode,jdbcType=VARCHAR}, #{agentName,jdbcType=VARCHAR},
+        #{agreementCode,jdbcType=VARCHAR},
+        #{agreementStartDate,jdbcType=TIMESTAMP},
+        #{agreementEndDate,jdbcType=TIMESTAMP},
+        #{currency,jdbcType=VARCHAR}, #{currencyDsc,jdbcType=VARCHAR}, #{billLanguage,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}, #{createOpe,jdbcType=VARCHAR},
+        #{createName,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{exceptFlag,jdbcType=CHAR}, #{fltExceptFlag,jdbcType=CHAR},
+        #{companyCode,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="ctas.entity.Agreement">
+        insert into CTAS_AGREE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">
+                REC_ID,
+            </if>
+            <if test="agreementType != null">
+                AGREEMENT_TYPE,
+            </if>
+            <if test="carrierCode != null">
+                CARRIER_CODE,
+            </if>
+            <if test="carrierName != null">
+                CARRIER_NAME,
+            </if>
+            <if test="agentCode != null">
+                AGENT_CODE,
+            </if>
+            <if test="agentName != null">
+                AGENT_NAME,
+            </if>
+            <if test="agreementCode != null">
+                AGREEMENT_CODE,
+            </if>
+            <if test="agreementStartDate != null">
+                AGREEMENT_START_DATE,
+            </if>
+            <if test="agreementEndDate != null">
+                AGREEMENT_END_DATE,
+            </if>
+            <if test="currency != null">
+                CURRENCY,
+            </if>
+            <if test="currencyDsc != null">
+                CURRENCY_DSC,
+            </if>
+            <if test="billLanguage != null">
+                BILL_LANGUAGE,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="createOpe != null">
+                CREATE_OPE,
+            </if>
+            <if test="createName != null">
+                CREATE_NAME,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="exceptFlag != null">
+                EXCEPT_FLAG,
+            </if>
+            <if test="fltExceptFlag != null">
+                FLT_EXCEPT_FLAG,
+            </if>
+            <if test="companyCode != null">
+                COMPANY_CODE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">
+                #{recId,jdbcType=DECIMAL},
+            </if>
+            <if test="agreementType != null">
+                #{agreementType,jdbcType=CHAR},
+            </if>
+            <if test="carrierCode != null">
+                #{carrierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="carrierName != null">
+                #{carrierName,jdbcType=VARCHAR},
+            </if>
+            <if test="agentCode != null">
+                #{agentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="agentName != null">
+                #{agentName,jdbcType=VARCHAR},
+            </if>
+            <if test="agreementCode != null">
+                #{agreementCode,jdbcType=VARCHAR},
+            </if>
+            <if test="agreementStartDate != null">
+                #{agreementStartDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="agreementEndDate != null">
+                #{agreementEndDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="currency != null">
+                #{currency,jdbcType=VARCHAR},
+            </if>
+            <if test="currencyDsc != null">
+                #{currencyDsc,jdbcType=VARCHAR},
+            </if>
+            <if test="billLanguage != null">
+                #{billLanguage,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createOpe != null">
+                #{createOpe,jdbcType=VARCHAR},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="exceptFlag != null">
+                #{exceptFlag,jdbcType=CHAR},
+            </if>
+            <if test="fltExceptFlag != null">
+                #{fltExceptFlag,jdbcType=CHAR},
+            </if>
+            <if test="companyCode != null">
+                #{companyCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="ctas.entity.Agreement">
+        update CTAS_AGREE
+        <set>
+            <if test="agreementType != null">
+                AGREEMENT_TYPE = #{agreementType,jdbcType=CHAR},
+            </if>
+            <if test="carrierCode != null">
+                CARRIER_CODE = #{carrierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="carrierName != null">
+                CARRIER_NAME = #{carrierName,jdbcType=VARCHAR},
+            </if>
+            <if test="agentCode != null">
+                AGENT_CODE = #{agentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="agentName != null">
+                AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+            </if>
+            <if test="agreementCode != null">
+                AGREEMENT_CODE = #{agreementCode,jdbcType=VARCHAR},
+            </if>
+            <if test="agreementStartDate != null">
+                AGREEMENT_START_DATE = #{agreementStartDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="agreementEndDate != null">
+                AGREEMENT_END_DATE = #{agreementEndDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="currency != null">
+                CURRENCY = #{currency,jdbcType=VARCHAR},
+            </if>
+            <if test="currencyDsc != null">
+                CURRENCY_DSC = #{currencyDsc,jdbcType=VARCHAR},
+            </if>
+            <if test="billLanguage != null">
+                BILL_LANGUAGE = #{billLanguage,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createOpe != null">
+                CREATE_OPE = #{createOpe,jdbcType=VARCHAR},
+            </if>
+            <if test="createName != null">
+                CREATE_NAME = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="exceptFlag != null">
+                EXCEPT_FLAG = #{exceptFlag,jdbcType=CHAR},
+            </if>
+            <if test="fltExceptFlag != null">
+                FLT_EXCEPT_FLAG = #{fltExceptFlag,jdbcType=CHAR},
+            </if>
+            <if test="companyCode != null">
+                COMPANY_CODE = #{companyCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where REC_ID = #{recId,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="ctas.entity.Agreement">
+		update CTAS_AGREE
+		set AGREEMENT_TYPE = #{agreementType,jdbcType=CHAR},
+		CARRIER_CODE = #{carrierCode,jdbcType=VARCHAR},
+		CARRIER_NAME = #{carrierName,jdbcType=VARCHAR},
+		AGENT_CODE = #{agentCode,jdbcType=VARCHAR},
+		AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+		AGREEMENT_CODE = #{agreementCode,jdbcType=VARCHAR},
+		AGREEMENT_START_DATE = #{agreementStartDate,jdbcType=TIMESTAMP},
+		AGREEMENT_END_DATE = #{agreementEndDate,jdbcType=TIMESTAMP},
+		CURRENCY = #{currency,jdbcType=VARCHAR},
+		CURRENCY_DSC = #{currencyDsc,jdbcType=VARCHAR},
+		BILL_LANGUAGE = #{billLanguage,jdbcType=VARCHAR},
+		REMARK = #{remark,jdbcType=VARCHAR},
+		CREATE_OPE = #{createOpe,jdbcType=VARCHAR},
+		CREATE_NAME = #{createName,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		EXCEPT_FLAG = #{exceptFlag,jdbcType=CHAR},
+		FLT_EXCEPT_FLAG = #{fltExceptFlag,jdbcType=CHAR},
+		COMPANY_CODE = #{companyCode,jdbcType=VARCHAR}
+		where REC_ID = #{recId,jdbcType=DECIMAL}
+	</update>
+</mapper>

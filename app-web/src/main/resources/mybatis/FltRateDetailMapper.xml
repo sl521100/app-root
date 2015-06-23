@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.FltRateDetailMapper">
+    <resultMap id="BaseResultMap" type="ctas.entity.FltRateDetail">
+        <id column="REC_ID" property="recId" jdbcType="DECIMAL"/>
+        <result column="FK_FLT_RATE_ID" property="fkFltRateId"
+                jdbcType="DECIMAL"/>
+        <result column="MIN_PRICE" property="minPrice" jdbcType="DECIMAL"/>
+        <result column="RATE" property="rate" jdbcType="DECIMAL"/>
+        <result column="MIN_WEIGHT" property="minWeight" jdbcType="DECIMAL"/>
+        <result column="MAX_WEIGHT" property="maxWeight" jdbcType="DECIMAL"/>
+        <result column="CARRIER" property="carrier" jdbcType="VARCHAR"/>
+        <result column="FLT_NO" property="fltNo" jdbcType="VARCHAR"/>
+        <result column="MONTH_FLAG" property="monthFlag" jdbcType="DECIMAL"/>
+        <result column="ULD_TYPE" property="uldType" jdbcType="VARCHAR"/>
+        <result column="COLOR_TYPE" property="colorType" jdbcType="VARCHAR"/>
+        <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP"/>
+        <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP"/>
+        <result column="MIN_SIGNS" property="minSigns" jdbcType="VARCHAR"/>
+        <result column="MAX_SIGNS" property="maxSigns" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="CREATE_OPE" property="createOpe" jdbcType="VARCHAR"/>
+        <result column="CREATE_NAME" property="createName" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 查询费用规则 -->
+    <select id="queryFeeRateRule" resultMap="BaseResultMap" parameterType="java.util.Map">
+
+        select *
+        from ctas_flt_rate_detail t
+        where 1=1
+        <if test="fkRateId!=null">
+            and t.FK_FLT_RATE_ID = #{fkRateId,jdbcType=DECIMAL}
+        </if>
+        <if test="companyCode!=null">
+            and t.COMPANY_CODE=#{companyCode,jdbcType=VARCHAR}
+        </if>
+        order by t.REC_ID
+    </select>
+
+    <!--根据条件删除 -->
+    <delete id="deleteByMap" parameterType="java.util.Map">
+		delete from ctas_flt_rate_detail
+		where CREATE_TIME BETWEEN #{beginDate,jdbcType=TIMESTAMP} AND
+		#{endDate,jdbcType=TIMESTAMP} AND COMPANY_CODE =
+		#{companyCode,jdbcType=VARCHAR}
+	</delete>
+
+    <sql id="Base_Column_List">
+		REC_ID, FK_FLT_RATE_ID, MIN_PRICE, RATE, MIN_WEIGHT, MAX_WEIGHT, CARRIER,
+		FLT_NO,
+		MONTH_FLAG, ULD_TYPE, COLOR_TYPE, START_DATE, END_DATE, MIN_SIGNS, MAX_SIGNS,
+		REMARK,
+		CREATE_OPE, CREATE_NAME, CREATE_TIME, COMPANY_CODE
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from CTAS_FLT_RATE_DETAIL
+        where REC_ID = #{recId,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from CTAS_FLT_RATE_DETAIL
+		where REC_ID = #{recId,jdbcType=DECIMAL}
+	</delete>
+    <insert id="insert" parameterType="ctas.entity.FltRateDetail">
+
+        <selectKey keyProperty="recId" order="BEFORE" resultType="Long">
+            select SEQ_CTAS_FLT_RATE_DETAIL.NEXTVAL as recId from dual
+        </selectKey>
+
+        insert into CTAS_FLT_RATE_DETAIL (REC_ID, FK_FLT_RATE_ID, MIN_PRICE,
+        RATE, MIN_WEIGHT, MAX_WEIGHT,
+        CARRIER, FLT_NO, MONTH_FLAG,
+        ULD_TYPE, COLOR_TYPE, START_DATE,
+        END_DATE, MIN_SIGNS, MAX_SIGNS,
+        REMARK, CREATE_OPE, CREATE_NAME,
+        CREATE_TIME, COMPANY_CODE)
+        values (#{recId,jdbcType=DECIMAL}, #{fkFltRateId,jdbcType=DECIMAL},
+        #{minPrice,jdbcType=DECIMAL},
+        #{rate,jdbcType=DECIMAL}, #{minWeight,jdbcType=DECIMAL}, #{maxWeight,jdbcType=DECIMAL},
+        #{carrier,jdbcType=VARCHAR}, #{fltNo,jdbcType=VARCHAR},
+        #{monthFlag,jdbcType=DECIMAL},
+        #{uldType,jdbcType=VARCHAR}, #{colorType,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP},
+        #{endDate,jdbcType=TIMESTAMP}, #{minSigns,jdbcType=VARCHAR},
+        #{maxSigns,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}, #{createOpe,jdbcType=VARCHAR}, #{createName,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{companyCode,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="ctas.entity.FltRateDetail">
+        insert into CTAS_FLT_RATE_DETAIL
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">
+                REC_ID,
+            </if>
+            <if test="fkFltRateId != null">
+                FK_FLT_RATE_ID,
+            </if>
+            <if test="minPrice != null">
+                MIN_PRICE,
+            </if>
+            <if test="rate != null">
+                RATE,
+            </if>
+            <if test="minWeight != null">
+                MIN_WEIGHT,
+            </if>
+            <if test="maxWeight != null">
+                MAX_WEIGHT,
+            </if>
+            <if test="carrier != null">
+                CARRIER,
+            </if>
+            <if test="fltNo != null">
+                FLT_NO,
+            </if>
+            <if test="monthFlag != null">
+                MONTH_FLAG,
+            </if>
+            <if test="uldType != null">
+                ULD_TYPE,
+            </if>
+            <if test="colorType != null">
+                COLOR_TYPE,
+            </if>
+            <if test="startDate != null">
+                START_DATE,
+            </if>
+            <if test="endDate != null">
+                END_DATE,
+            </if>
+            <if test="minSigns != null">
+                MIN_SIGNS,
+            </if>
+            <if test="maxSigns != null">
+                MAX_SIGNS,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="createOpe != null">
+                CREATE_OPE,
+            </if>
+            <if test="createName != null">
+                CREATE_NAME,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="companyCode != null">
+                COMPANY_CODE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">
+                #{recId,jdbcType=DECIMAL},
+            </if>
+            <if test="fkFltRateId != null">
+                #{fkFltRateId,jdbcType=DECIMAL},
+            </if>
+            <if test="minPrice != null">
+                #{minPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="rate != null">
+                #{rate,jdbcType=DECIMAL},
+            </if>
+            <if test="minWeight != null">
+                #{minWeight,jdbcType=DECIMAL},
+            </if>
+            <if test="maxWeight != null">
+                #{maxWeight,jdbcType=DECIMAL},
+            </if>
+            <if test="carrier != null">
+                #{carrier,jdbcType=VARCHAR},
+            </if>
+            <if test="fltNo != null">
+                #{fltNo,jdbcType=VARCHAR},
+            </if>
+            <if test="monthFlag != null">
+                #{monthFlag,jdbcType=DECIMAL},
+            </if>
+            <if test="uldType != null">
+                #{uldType,jdbcType=VARCHAR},
+            </if>
+            <if test="colorType != null">
+                #{colorType,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="minSigns != null">
+                #{minSigns,jdbcType=VARCHAR},
+            </if>
+            <if test="maxSigns != null">
+                #{maxSigns,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createOpe != null">
+                #{createOpe,jdbcType=VARCHAR},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="companyCode != null">
+                #{companyCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="ctas.entity.FltRateDetail">
+        update CTAS_FLT_RATE_DETAIL
+        <set>
+            <if test="fkFltRateId != null">
+                FK_FLT_RATE_ID = #{fkFltRateId,jdbcType=DECIMAL},
+            </if>
+            <if test="minPrice != null">
+                MIN_PRICE = #{minPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="rate != null">
+                RATE = #{rate,jdbcType=DECIMAL},
+            </if>
+            <if test="minWeight != null">
+                MIN_WEIGHT = #{minWeight,jdbcType=DECIMAL},
+            </if>
+            <if test="maxWeight != null">
+                MAX_WEIGHT = #{maxWeight,jdbcType=DECIMAL},
+            </if>
+            <if test="carrier != null">
+                CARRIER = #{carrier,jdbcType=VARCHAR},
+            </if>
+            <if test="fltNo != null">
+                FLT_NO = #{fltNo,jdbcType=VARCHAR},
+            </if>
+            <if test="monthFlag != null">
+                MONTH_FLAG = #{monthFlag,jdbcType=DECIMAL},
+            </if>
+            <if test="uldType != null">
+                ULD_TYPE = #{uldType,jdbcType=VARCHAR},
+            </if>
+            <if test="colorType != null">
+                COLOR_TYPE = #{colorType,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                START_DATE = #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                END_DATE = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="minSigns != null">
+                MIN_SIGNS = #{minSigns,jdbcType=VARCHAR},
+            </if>
+            <if test="maxSigns != null">
+                MAX_SIGNS = #{maxSigns,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createOpe != null">
+                CREATE_OPE = #{createOpe,jdbcType=VARCHAR},
+            </if>
+            <if test="createName != null">
+                CREATE_NAME = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="companyCode != null">
+                COMPANY_CODE = #{companyCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where REC_ID = #{recId,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="ctas.entity.FltRateDetail">
+		update CTAS_FLT_RATE_DETAIL
+		set FK_FLT_RATE_ID = #{fkFltRateId,jdbcType=DECIMAL},
+		MIN_PRICE = #{minPrice,jdbcType=DECIMAL},
+		RATE = #{rate,jdbcType=DECIMAL},
+		MIN_WEIGHT = #{minWeight,jdbcType=DECIMAL},
+		MAX_WEIGHT = #{maxWeight,jdbcType=DECIMAL},
+		CARRIER = #{carrier,jdbcType=VARCHAR},
+		FLT_NO = #{fltNo,jdbcType=VARCHAR},
+		MONTH_FLAG = #{monthFlag,jdbcType=DECIMAL},
+		ULD_TYPE = #{uldType,jdbcType=VARCHAR},
+		COLOR_TYPE = #{colorType,jdbcType=VARCHAR},
+		START_DATE = #{startDate,jdbcType=TIMESTAMP},
+		END_DATE = #{endDate,jdbcType=TIMESTAMP},
+		MIN_SIGNS = #{minSigns,jdbcType=VARCHAR},
+		MAX_SIGNS = #{maxSigns,jdbcType=VARCHAR},
+		REMARK = #{remark,jdbcType=VARCHAR},
+		CREATE_OPE = #{createOpe,jdbcType=VARCHAR},
+		CREATE_NAME = #{createName,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		COMPANY_CODE = #{companyCode,jdbcType=VARCHAR}
+		where REC_ID = #{recId,jdbcType=DECIMAL}
+	</update>
+</mapper>

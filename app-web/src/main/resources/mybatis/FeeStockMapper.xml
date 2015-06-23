@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.FeeStockMapper">
+
+    <resultMap id="FeeStockResultDto" type="ctas.web.dto.sharkdetail.agt.FeeStockDto">
+        <!--CTAS_FEE_BASE部分-->
+        <id column="REC_ID" property="recId" jdbcType="DECIMAL"/>
+        <result column="AWB_PRE" property="awbPre" jdbcType="VARCHAR"/>
+        <result column="AWB_NO" property="awbNo" jdbcType="VARCHAR"/>
+        <result column="AWB_NUMBER" property="awbNumber" jdbcType="VARCHAR"/>
+        <result column="AGENT_CODE" property="agentCode" jdbcType="VARCHAR"/>
+        <result column="FLIGHT_NO" property="flightNo" jdbcType="VARCHAR"/>
+        <result column="WEIGHT" property="weight" jdbcType="DECIMAL"/>
+        <result column="FEE" property="fee" jdbcType="DECIMAL"/>
+        <result column="OCCR_TIME" property="occrTime" jdbcType="TIMESTAMP"/>
+        <result column="BILL_NO" property="billNo" jdbcType="DECIMAL"/>
+        <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="FEE_DIC_KEY" property="feeDicKey" jdbcType="VARCHAR"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+        <result column="DI" property="di" jdbcType="VARCHAR"/>
+        <result column="EI" property="ei" jdbcType="VARCHAR"/>
+        <result column="CARGO_MAIL_FLAG" property="cargoMailFlag" jdbcType="VARCHAR"/>
+        <result column="OPE_STATION" property="opeStation" jdbcType="VARCHAR"/>
+
+        <!--CTAS_FEE_STOCK部分-->
+        <result column="BASE_REC_ID" jdbcType="DECIMAL" property="baseRecId"/>
+        <result column="PAYMENT_TYPE" jdbcType="VARCHAR" property="paymentType"/>
+        <result column="CHARGE_TYPE" jdbcType="VARCHAR" property="chargeType"/>
+        <result column="AGENT_SHORT_NAME" jdbcType="VARCHAR" property="agentShortName"/>
+        <result column="RECIEVER_ID" jdbcType="DECIMAL" property="recieverId"/>
+        <result column="RECIEVER_NAME" jdbcType="VARCHAR" property="recieverName"/>
+        <result column="CONSIGNEE_ID" jdbcType="DECIMAL" property="consigneeId"/>
+        <result column="CONSIGNEE_NAME" jdbcType="VARCHAR" property="consigneeName"/>
+        <result column="CONSIGNEE_TYPE" jdbcType="VARCHAR" property="consigneeType"/>
+        <result column="CHARGE_STATUS" jdbcType="VARCHAR" property="chargeStatus"/>
+        <result column="VALIDITY" jdbcType="VARCHAR" property="validity"/>
+        <result column="CHARGE_DETAIL_ID" jdbcType="DECIMAL" property="chargeDetailId"/>
+        <result column="CHARGE_ID" jdbcType="DECIMAL" property="chargeId"/>
+        <result column="CHARGE_NO" jdbcType="VARCHAR" property="chargeNo"/>
+        <result column="HAWB_NO" jdbcType="VARCHAR" property="hawbNo"/>
+        <result column="SPECIAL_CODE" jdbcType="VARCHAR" property="specialCode"/>
+        <result column="CN_DESC" jdbcType="VARCHAR" property="cnDesc"/>
+        <result column="CARGO_TYPE_ID" jdbcType="VARCHAR" property="cargoTypeId"/>
+        <result column="CHARGE_START_DATE_UPD" jdbcType="VARCHAR" property="chargeStartDateUpd"/>
+        <result column="DI" jdbcType="VARCHAR" property="di"/>
+        <result column="PIECE" jdbcType="DECIMAL" property="piece"/>
+        <result column="ACCOUNT_MONEY" jdbcType="DECIMAL" property="accountMoney"/>
+        <result column="PAID_MONEY" jdbcType="DECIMAL" property="paidMoney"/>
+        <result column="OUT_STATUS" jdbcType="VARCHAR" property="outStatus"/>
+        <result column="OUT_OPERATOR_NAME" jdbcType="VARCHAR" property="outOperatorName"/>
+        <result column="OUT_TYPE" jdbcType="VARCHAR" property="outType"/>
+        <result column="OUT_STORAGE_NO" jdbcType="VARCHAR" property="outStorageNo"/>
+        <result column="AREA_ID" jdbcType="DECIMAL" property="areaId"/>
+        <result column="AREA_NAME" jdbcType="VARCHAR" property="areaName"/>
+        <result column="AIRDROME_CODE" jdbcType="VARCHAR" property="airdromeCode"/>
+        <result column="AIRDROME_NAME" jdbcType="VARCHAR" property="airdromeName"/>
+        <result column="IS_TRANSFER" jdbcType="VARCHAR" property="isTransfer"/>
+        <result column="ACCOUNT_PICKUP_MONEY" jdbcType="DECIMAL" property="accountPickupMoney"/>
+        <result column="PAID_PICKUP_MONEY" jdbcType="DECIMAL" property="paidPickupMoney"/>
+        <result column="ACCOUNT_STORAGE_MONEY" jdbcType="DECIMAL" property="accountStorageMoney"/>
+        <result column="PAID_STORAGE_MONEY" jdbcType="DECIMAL" property="paidStorageMoney"/>
+        <result column="USER_DEPT" jdbcType="VARCHAR" property="userDept"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="STORE_HOUSE_ID" jdbcType="VARCHAR" property="storeHouseId"/>
+        <result column="STORE_HOUSE_CODE" jdbcType="VARCHAR" property="storeHouseCode"/>
+        <result column="STORE_HOUSE_NAME" jdbcType="VARCHAR" property="storeHouseName"/>
+        <result column="STORE_POSITION" jdbcType="VARCHAR" property="storePosition"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="COMPANY_CODE" jdbcType="VARCHAR" property="companyCode"/>
+        <result column="CHARGE_END_DATE" jdbcType="TIMESTAMP" property="chargeEndDate"/>
+        <result column="CHARGE_START_DATE" jdbcType="TIMESTAMP" property="chargeStartDate"/>
+        <result column="RECIEVE_DATE" jdbcType="TIMESTAMP" property="recieveDate"/>
+        <result column="OUT_STORAGE_DATE" jdbcType="TIMESTAMP" property="outStorageDate"/>
+        <result column="FLIGHT_DATE" jdbcType="TIMESTAMP" property="flightDate"/>
+
+    </resultMap>
+    <!--仓储明细查询sql-->
+    <select id="queryFeeStockDtos" resultMap="FeeStockResultDto" parameterType="java.util.Map">
+        select b.agent_code as agtCode,
+        t.charge_no as chargeNo,
+        b.AWB_NUMBER as awbNumber,
+        t.hawb_no as hawbNo,
+        t.airdrome_code as airdromeCode,
+        t.airdrome_name as airdromeName,
+        t.area_name as areaName,
+        t.dept_name as deptName,
+        t.piece as pcs,
+        b.weight as weight,
+        b.fee as fee,
+        b.flight_no as flightNo,
+        t.flight_date as importTime,
+        t.recieve_date as receiveTime,
+        t.out_storage_date as outTime,
+        t.store_house_name as storeHouse
+        from ctas_fee_base b, CTAS_FEE_STOCK t
+        where b.rec_id = t.base_rec_id
+        and b.fee_dic_key = #{feeDicKey,jdbcType=VARCHAR}
+        AND T.COMPANY_CODE=#{companyCode,jdbcType=VARCHAR}
+        and b.AGENT_CODE is not null
+        <if test="di!=null">
+            and t.di=#{di,jdbcType=VARCHAR}
+        </if>
+        <if test="eDate!=null">
+            and t.recieve_date <![CDATA[<]]> = #{eDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="sDate!=null">
+            and t.recieve_date >= #{sDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="agentCode != null">
+            AND b.agent_code = #{agentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="awbFullNo != null">
+            AND b.awb_number = #{awbFullNo,jdbcType=VARCHAR}
+        </if>
+        <if test='awbType != null and awbType=="H" '>
+            AND t.HAWB_NO is not null
+        </if>
+        <if test="payMode!=null">
+            and t.PAYMENT_TYPE=#{payMode,jdbcType=VARCHAR}
+        </if>
+        <if test="airdrome!=null">
+            and t.AIRDROME_CODE=#{airdrome,jdbcType=VARCHAR}
+        </if>
+        <if test="agtGroup!=null">
+            and exists (select g.rec_id from ctas_agt_group g where g.agent_code=b.agent_code and
+            g.partition_id=#{agtGroup,jdbcType=VARCHAR})
+        </if>
+        order by t.recieve_date asc
+    </select>
+
+    <!--仓储明细 总计 查询sql-->
+    <select id="queryStockTotal" resultMap="FeeStockResultDto" parameterType="java.util.Map">
+        select
+        sum(t.piece) as pcs,
+        sum(b.weight) as weight,
+        sum(b.fee) as fee
+        from ctas_fee_base b, CTAS_FEE_STOCK t
+        where b.rec_id = t.base_rec_id
+        and b.fee_dic_key = #{feeDicKey,jdbcType=VARCHAR}
+        AND T.COMPANY_CODE=#{companyCode,jdbcType=VARCHAR}
+        and b.AGENT_CODE is not null
+        <if test="di!=null">
+            and t.di=#{di,jdbcType=VARCHAR}
+        </if>
+        <if test="eDate!=null">
+            and t.recieve_date <![CDATA[<]]> = #{eDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="sDate!=null">
+            and t.recieve_date >= #{sDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="agentCode != null">
+            AND b.agent_code = #{agentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="awbFullNo != null">
+            AND b.awb_number = #{awbFullNo,jdbcType=VARCHAR}
+        </if>
+        <if test='awbType != null and awbType=="H" '>
+            AND t.HAWB_NO is not null
+        </if>
+        <if test="payMode!=null">
+            and t.PAYMENT_TYPE=#{payMode,jdbcType=VARCHAR}
+        </if>
+        <if test="airdrome!=null">
+            and t.AIRDROME_CODE=#{airdrome,jdbcType=VARCHAR}
+        </if>
+        <if test="agtGroup!=null">
+            and exists (select g.rec_id from ctas_agt_group g where g.agent_code=b.agent_code and
+            g.partition_id=#{agtGroup,jdbcType=VARCHAR})
+        </if>
+        order by t.recieve_date asc
+    </select>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.AgtGroupMapper">
+    <resultMap id="BaseResultMap" type="ctas.entity.AgtGroup">
+        <id column="REC_ID" property="recId" jdbcType="DECIMAL"/>
+        <result column="PARTITION_OWNER" property="partitionOwner" jdbcType="CHAR"/>
+        <result column="PARTITION_ID" property="partitionId" jdbcType="VARCHAR"/>
+        <result column="AGENT_CODE" property="agentCode" jdbcType="VARCHAR"/>
+        <result column="CRT_OPE_TIME" property="crtOpeTime" jdbcType="TIMESTAMP"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+        <result column="DI" property="di" jdbcType="CHAR"/>
+        <result column="GROUP_NAME_CN" property="groupNameCn" jdbcType="VARCHAR"/>
+        <result column="GROUP_NAME_EN" property="groupNameEn" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="GetAgentPartitionList" resultType="ctas.entity.AgtGroup">
+        select distinct t.partition_id as partitionId,
+          t.group_name_cn as groupNameCn,
+          t.group_name_en as groupNameEn
+        from ctas_agt_group t
+        order by t.partition_id
+    </select>
+    <select id="GetAgentCodeListByPartitionId" resultType="ctas.entity.AgtGroup"
+            parameterType="java.util.Map">
+        SELECT t.agent_code as agentCode
+        FROM ctas_agt_group t
+        WHERE 1=1
+        <if test="partitionId != null and partitionId!=''">
+            AND t. partition_id = #{partitionId,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <select id="GetAgentGroupList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select T.REC_ID, T.PARTITION_OWNER, T.PARTITION_ID, T.AGENT_CODE, T.CRT_OPE_TIME,
+        T.COMPANY_CODE, T.DI, T.GROUP_NAME_CN, T.GROUP_NAME_EN
+        from CTAS_AGT_GROUP T
+        WHERE T.COMPANY_CODE = #{companyCode,jdbcType=VARCHAR}
+        <if test="groupNameCn != null and '' != groupNameCn">
+            AND T.GROUP_NAME_CN = #{groupNameCn,jdbcType=VARCHAR}
+        </if>
+        <if test="groupNameEn != null and '' != groupNameEn">
+            AND T.GROUP_NAME_EN = #{groupNameEn,jdbcType=VARCHAR}
+        </if>
+        <if test="di != null and '' != di">
+            AND T.DI = #{groupNameCn,jdbcType=VARCHAR}
+        </if>
+        <if test="agentCode != null and '' != agentCode">
+            AND T.AGENT_CODE = #{agentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="partitionId != null and '' != partitionId">
+            AND T.PARTITION_ID = #{partitionId,jdbcType=VARCHAR}
+        </if>
+        ORDER BY T.PARTITION_ID, T.AGENT_CODE
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from CTAS_AGT_GROUP
+        where REC_ID = #{recId,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="ctas.entity.AgtGroup">
+        <selectKey keyProperty="recId" order="BEFORE" resultType="Long">
+            select SEQ_CTAS_AGT_GROUP.nextval as recId from dual
+        </selectKey>
+        insert into CTAS_AGT_GROUP (REC_ID, PARTITION_OWNER, PARTITION_ID,
+        AGENT_CODE, CRT_OPE_TIME,COMPANY_CODE, DI, GROUP_NAME_CN, GROUP_NAME_EN)
+        values (#{recId,jdbcType=DECIMAL}, #{partitionOwner,jdbcType=VARCHAR}, #{partitionId,jdbcType=VARCHAR},
+        #{agentCode,jdbcType=VARCHAR}, #{crtOpeTime,jdbcType=TIMESTAMP},
+        #{companyCode,jdbcType=VARCHAR}, #{di,jdbcType=CHAR}, #{groupNameCn,jdbcType=VARCHAR},
+        #{groupNameEn,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="ctas.entity.AgtGroup">
+        update CTAS_AGT_GROUP
+        set PARTITION_OWNER = #{partitionOwner,jdbcType=VARCHAR},
+        PARTITION_ID = #{partitionId,jdbcType=DECIMAL},
+        AGENT_CODE = #{agentCode,jdbcType=DECIMAL},
+        DI = #{di,jdbcType=TIMESTAMP},
+        GROUP_NAME_CN = #{groupNameCn,jdbcType=VARCHAR},
+        GROUP_NAME_EN = #{groupNameEn,jdbcType=VARCHAR}
+        where REC_ID = #{recId,jdbcType=DECIMAL}
+    </update>
+    <select id="getAgtGroupByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT T.REC_ID, T.PARTITION_OWNER, T.PARTITION_ID, T.AGENT_CODE, T.CRT_OPE_TIME,
+          T.COMPANY_CODE, T.DI, T.GROUP_NAME_CN, T.GROUP_NAME_EN
+        from CTAS_AGT_GROUP T
+        WHERE T.REC_ID = #{recId,jdbcType=DECIMAL}
+    </select>
+</mapper>

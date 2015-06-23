@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ctas.web.mybatis.mapper.AgtAdjustDetailMapper">
+    <resultMap id="BaseResultMap" type="ctas.entity.AgtAdjustDetail">
+        <id column="REC_ID" property="recId" jdbcType="DECIMAL"/>
+        <result column="BASE_REC_ID" property="baseRecId" jdbcType="DECIMAL"/>
+        <result column="AWB_PRE" property="awbPre" jdbcType="VARCHAR"/>
+        <result column="AWB_NO" property="awbNo" jdbcType="VARCHAR"/>
+        <result column="FLIGHT_NO" property="flightNo" jdbcType="VARCHAR"/>
+        <result column="FLIGHT_DATE" property="flightDate" jdbcType="TIMESTAMP"/>
+        <result column="FEE_CODE" property="feeCode" jdbcType="VARCHAR"/>
+        <result column="FEE" property="fee" jdbcType="DECIMAL"/>
+        <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="CREATOR_ID" property="creatorId" jdbcType="VARCHAR"/>
+        <result column="CREATOR_NAME" property="creatorName" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATE_TIME" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
+        <result column="LAST_UPDATOR_ID" property="lastUpdatorId" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATOR_NAME" property="lastUpdatorName" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getAgtAdjustFeeDetail" parameterType="java.lang.Long"
+            resultMap="BaseResultMap">
+    SELECT *
+    FROM CTAS_AGT_ADJUST_DETAIL
+    WHERE 1 = 1
+    and BASE_REC_ID=#{baseRecId,jdbcType=DECIMAL}
+  </select>
+
+    <sql id="Base_Column_List">
+    REC_ID, BASE_REC_ID, AWB_PRE, AWB_NO, FLIGHT_NO, FLIGHT_DATE, FEE_CODE, FEE, COMPANY_CODE, 
+    CREATE_TIME, CREATOR_ID, CREATOR_NAME, LAST_UPDATE_TIME, LAST_UPDATOR_ID, LAST_UPDATOR_NAME, 
+    REMARK
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from CTAS_AGT_ADJUST_DETAIL
+        where REC_ID = #{recId,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from CTAS_AGT_ADJUST_DETAIL
+    where REC_ID = #{recId,jdbcType=DECIMAL}
+  </delete>
+
+    <delete id="deleteByBaseId" parameterType="java.lang.Long">
+    delete from CTAS_AGT_ADJUST_DETAIL
+    where BASE_REC_ID = #{baseId,jdbcType=DECIMAL}
+  </delete>
+
+    <insert id="insert" parameterType="ctas.entity.AgtAdjustDetail">
+
+        <selectKey keyProperty="recId" order="BEFORE" resultType="Long">
+            select SEQ_CTAS_AGT_ADJUST_DETAIL.nextval as recId from dual
+        </selectKey>
+
+        insert into CTAS_AGT_ADJUST_DETAIL (REC_ID, BASE_REC_ID, AWB_PRE,
+        AWB_NO, FLIGHT_NO, FLIGHT_DATE,
+        FEE_CODE, FEE, COMPANY_CODE,
+        CREATE_TIME, CREATOR_ID, CREATOR_NAME,
+        LAST_UPDATE_TIME, LAST_UPDATOR_ID, LAST_UPDATOR_NAME,
+        REMARK)
+        values (#{recId,jdbcType=DECIMAL}, #{baseRecId,jdbcType=DECIMAL}, #{awbPre,jdbcType=VARCHAR},
+        #{awbNo,jdbcType=VARCHAR}, #{flightNo,jdbcType=VARCHAR}, #{flightDate,jdbcType=TIMESTAMP},
+        #{feeCode,jdbcType=VARCHAR}, #{fee,jdbcType=DECIMAL}, #{companyCode,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=VARCHAR}, #{creatorName,jdbcType=VARCHAR},
+        #{lastUpdateTime,jdbcType=TIMESTAMP}, #{lastUpdatorId,jdbcType=VARCHAR}, #{lastUpdatorName,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="ctas.entity.AgtAdjustDetail">
+        insert into CTAS_AGT_ADJUST_DETAIL
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">
+                REC_ID,
+            </if>
+            <if test="baseRecId != null">
+                BASE_REC_ID,
+            </if>
+            <if test="awbPre != null">
+                AWB_PRE,
+            </if>
+            <if test="awbNo != null">
+                AWB_NO,
+            </if>
+            <if test="flightNo != null">
+                FLIGHT_NO,
+            </if>
+            <if test="flightDate != null">
+                FLIGHT_DATE,
+            </if>
+            <if test="feeCode != null">
+                FEE_CODE,
+            </if>
+            <if test="fee != null">
+                FEE,
+            </if>
+            <if test="companyCode != null">
+                COMPANY_CODE,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="creatorId != null">
+                CREATOR_ID,
+            </if>
+            <if test="creatorName != null">
+                CREATOR_NAME,
+            </if>
+            <if test="lastUpdateTime != null">
+                LAST_UPDATE_TIME,
+            </if>
+            <if test="lastUpdatorId != null">
+                LAST_UPDATOR_ID,
+            </if>
+            <if test="lastUpdatorName != null">
+                LAST_UPDATOR_NAME,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">
+                #{recId,jdbcType=DECIMAL},
+            </if>
+            <if test="baseRecId != null">
+                #{baseRecId,jdbcType=DECIMAL},
+            </if>
+            <if test="awbPre != null">
+                #{awbPre,jdbcType=VARCHAR},
+            </if>
+            <if test="awbNo != null">
+                #{awbNo,jdbcType=VARCHAR},
+            </if>
+            <if test="flightNo != null">
+                #{flightNo,jdbcType=VARCHAR},
+            </if>
+            <if test="flightDate != null">
+                #{flightDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="feeCode != null">
+                #{feeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fee != null">
+                #{fee,jdbcType=DECIMAL},
+            </if>
+            <if test="companyCode != null">
+                #{companyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creatorId != null">
+                #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null">
+                #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateTime != null">
+                #{lastUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatorId != null">
+                #{lastUpdatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdatorName != null">
+                #{lastUpdatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="ctas.entity.AgtAdjustDetail">
+        update CTAS_AGT_ADJUST_DETAIL
+        <set>
+            <if test="baseRecId != null">
+                BASE_REC_ID = #{baseRecId,jdbcType=DECIMAL},
+            </if>
+            <if test="awbPre != null">
+                AWB_PRE = #{awbPre,jdbcType=VARCHAR},
+            </if>
+            <if test="awbNo != null">
+                AWB_NO = #{awbNo,jdbcType=VARCHAR},
+            </if>
+            <if test="flightNo != null">
+                FLIGHT_NO = #{flightNo,jdbcType=VARCHAR},
+            </if>
+            <if test="flightDate != null">
+                FLIGHT_DATE = #{flightDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="feeCode != null">
+                FEE_CODE = #{feeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fee != null">
+                FEE = #{fee,jdbcType=DECIMAL},
+            </if>
+            <if test="companyCode != null">
+                COMPANY_CODE = #{companyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creatorId != null">
+                CREATOR_ID = #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null">
+                CREATOR_NAME = #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateTime != null">
+                LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatorId != null">
+                LAST_UPDATOR_ID = #{lastUpdatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdatorName != null">
+                LAST_UPDATOR_NAME = #{lastUpdatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where REC_ID = #{recId,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="ctas.entity.AgtAdjustDetail">
+    update CTAS_AGT_ADJUST_DETAIL
+    set BASE_REC_ID = #{baseRecId,jdbcType=DECIMAL},
+      AWB_PRE = #{awbPre,jdbcType=VARCHAR},
+      AWB_NO = #{awbNo,jdbcType=VARCHAR},
+      FLIGHT_NO = #{flightNo,jdbcType=VARCHAR},
+      FLIGHT_DATE = #{flightDate,jdbcType=TIMESTAMP},
+      FEE_CODE = #{feeCode,jdbcType=VARCHAR},
+      FEE = #{fee,jdbcType=DECIMAL},
+      COMPANY_CODE = #{companyCode,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR_ID = #{creatorId,jdbcType=VARCHAR},
+      CREATOR_NAME = #{creatorName,jdbcType=VARCHAR},
+      LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      LAST_UPDATOR_ID = #{lastUpdatorId,jdbcType=VARCHAR},
+      LAST_UPDATOR_NAME = #{lastUpdatorName,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where REC_ID = #{recId,jdbcType=DECIMAL}
+  </update>
+</mapper>

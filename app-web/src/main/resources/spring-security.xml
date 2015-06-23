@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:s="http://www.springframework.org/schema/security"
+       xmlns:cache="http://www.springframework.org/schema/cache" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+ http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+ http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+ http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd"
+       default-autowire="byName">
+
+
+    <!--  <context:property-placeholder
+              location="classpath:properties/cache.properties"/>-->
+
+    <bean id="localSsoProperties"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location"
+                  value="classpath:properties/SsoConfig.properties"/>
+    </bean>
+
+    <bean id="ssoMetaData" class="sso.config.DefaultSsoMetaData">
+        <property name="localSsoProperties" ref="localSsoProperties"/>
+    </bean>
+
+    ${cache-bean}
+
+    <bean id="clientSsoFilter" class="sso.client.filter.ClientSsoCacheBasedFilter">
+        <property name="serviceCache" ref="infoskyDefaultCache"/>
+        <property name="ssoMetaData" ref="ssoMetaData"/>
+        <property name="excludeUrls">
+            <set>
+                <value/>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="i18nFilter" class="sso.client.filter.ClientSsoCookieI18nFilter"/>
+
+    <bean id="encodingFilter" class="org.springframework.web.filter.CharacterEncodingFilter">
+        <property name="encoding" value="UTF-8"/>
+    </bean>
+
+    <!--filter chain-->
+    <bean id="appFilterChain" class="org.springframework.security.web.FilterChainProxy">
+        <s:filter-chain-map path-type="ant">
+            <s:filter-chain filters="clientSsoFilter,encodingFilter,i18nFilter"
+                             pattern="/**/*.do"/>
+           <!-- <s:filter-chain filters="encodingFilter,i18nFilter"
+                            pattern="/*"/>-->
+        </s:filter-chain-map>
+    </bean>
+
+    <!--sso/ud挂掉时临时使用，正式发布时，必须去掉-->
+    <!--<bean class="ctas.web.dto.user.LoginUserDto" id="mockLoginUser">
+        <property name="companyCode" value="SHAMU"/>
+        <property name="loginName" value="XYY"/>
+        <property name="nameCn" value="喜羊羊"/>
+        <property name="nameEn" value="XiYangYang"/>
+        <property name="userId" value="999"/>
+        <property name="userRights">
+            <list>
+                <value>8010</value>
+                <value>8020</value>
+                <value>8030</value>
+                <value>8040</value>
+                <value>8050</value>
+            </list>
+        </property>
+    </bean>-->
+
+</beans>
