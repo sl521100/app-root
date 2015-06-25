@@ -12,5 +12,10 @@
     <modules>
         <module>app-lib</module>
         <module>app-web</module>
+        <module>app-bill</module>
+        <module>app-librarys</module>
     </modules>
+
+
+
 </project>

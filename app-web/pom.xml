@@ -22,6 +22,44 @@
         <struts2.version>2.3.16.3</struts2.version>
     </properties>
     <dependencies>
+        <!--inner lib-->
+        <dependency>
+            <groupId>com.cn.sl</groupId>
+            <artifactId>app-lib</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cn.sl</groupId>
+            <artifactId>app-bill</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--quartz-->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.1.7</version>
+            <scope>${jar-scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-oracle</artifactId>
+            <version>2.1.7</version>
+            <scope>${jar-scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-weblogic</artifactId>
+            <version>2.1.7</version>
+            <scope>${jar-scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-jboss</artifactId>
+            <version>2.1.7</version>
+            <scope>${jar-scope}</scope>
+        </dependency>
+
         <!--struts2-->
         <dependency>
             <groupId>org.apache.struts</groupId>
@@ -81,13 +119,13 @@
             <!--部署到weblogic时，这里要设置成provieded-->
         </dependency>
 
-        <!--y-lib-->
-        <dependency>
-            <groupId>com.cnblogs.yjmyzz</groupId>
-            <artifactId>y-lib</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
+        <!--&lt;!&ndash;y-lib&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.cnblogs.yjmyzz</groupId>-->
+            <!--<artifactId>y-lib</artifactId>-->
+            <!--<version>1.0</version>-->
+            <!--<scope>compile</scope>-->
+        <!--</dependency>-->
 
 
 
@@ -232,7 +270,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
-            <scope>provided</scope>
+            <scope>${jar-scope}</scope>
         </dependency>
 
         <!-- Spring Security -->
@@ -742,9 +780,9 @@
                     <![CDATA[
                     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
                           init-method="init" destroy-method="close">
-                        <property name="url" value="jdbc:oracle:thin:@172.21.129.53:1521:orcl"/>
-                        <property name="username" value="ctas"/>
-                        <property name="password" value="ctas"/>
+                        <property name="url" value="jdbc:oracle:thin:@10.6.144.162:1522:CCSP"/>
+                        <property name="username" value="cds"/>
+                        <property name="password" value="cargo"/>
                         <property name="initialSize" value="1" />
                         <property name="minIdle" value="1" />
                         <property name="maxActive" value="20" />
@@ -772,8 +810,8 @@
                 </iuds-hessian-url>
                 <ftp-root>pro</ftp-root>
                 <ftp-host>172.20.16.61</ftp-host>
-                <download-base-dir>ctas/download/</download-base-dir>
-                <log4j2-dir>ctas/logs</log4j2-dir>
+                <download-base-dir>app/download/</download-base-dir>
+                <log4j2-dir>app/logs</log4j2-dir>
                 <jar-scope>compile</jar-scope>
             </properties>
 

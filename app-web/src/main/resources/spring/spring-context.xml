@@ -12,12 +12,10 @@
 
     <context:component-scan base-package="com.cn.sl"/>
 
-    <!--<import resource="spring-beans.xml"/>-->
-    <!--<import resource="spring-database.xml"/>-->
-    <!--<import resource="spring-security.xml"/>-->
-    <!--<import resource="spring-context-bill-calc.xml"/>-->
-    <!--<import resource="spring-ftp.xml"/>-->
-    <!--<import resource="spring-redis.xml"/>-->
+    <!--<import resource="spring-task.xml"/>-->
+    <!--<import resource="spring-quartz.xml"/>-->
+    <import resource="spring-database.xml"/>
+
 
     <bean id="encodingFilter" class="org.springframework.web.filter.CharacterEncodingFilter">
         <property name="encoding" value="UTF-8"/>
@@ -30,4 +28,6 @@
                             pattern="/**/*.do"/>
         </s:filter-chain-map>
     </bean>
+
+
 </beans>

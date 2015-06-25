@@ -21,7 +21,7 @@
             content-negotiation-manager="contentNegotiationManager"
             conversion-service="conversionService"/>
 
-    <context:component-scan base-package="com.cn.sl.controller">
+    <context:component-scan base-package="com.cn.sl.web.controller">
         <context:exclude-filter type="annotation"
                                 expression="org.springframework.stereotype.Service"/>
     </context:component-scan>

@@ -16,28 +16,28 @@
     <!--构建菜单Url-->
     <function>
         <name>buildMenuUrl</name>
-        <function-class>com.cn.sl.utils.WebUtil</function-class>
+        <function-class>com.cn.sl.web.utils.WebUtil</function-class>
         <function-signature>java.lang.String buildMenuUrl(java.lang.String)</function-signature>
     </function>
 
     <!--添加js-->
     <function>
         <name>addJs</name>
-        <function-class>com.cn.sl.utils.WebUtil</function-class>
+        <function-class>com.cn.sl.web.utils.WebUtil</function-class>
         <function-signature>java.lang.String addJs(java.lang.String)</function-signature>
     </function>
 
     <!--添加css-->
     <function>
         <name>addCss</name>
-        <function-class>com.cn.sl.utils.WebUtil</function-class>
+        <function-class>com.cn.sl.web.utils.WebUtil</function-class>
         <function-signature>java.lang.String addCss(java.lang.String)</function-signature>
     </function>
 
     <!--获取基础路径-->
     <function>
         <name>getBaseUrl</name>
-        <function-class>com.cn.sl.utils.WebUtil</function-class>
+        <function-class>com.cn.sl.web.utils.WebUtil</function-class>
         <function-signature>java.lang.String getBaseUrl()</function-signature>
     </function>
 

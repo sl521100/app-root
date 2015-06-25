@@ -3,7 +3,7 @@
 
 	<properties>
 		<property name="LOG_HOME">${log4j2-dir}</property>
-		<property name="FILE_NAME">ctas-web</property>
+		<property name="FILE_NAME">app-web</property>
 	</properties>
 
 	<Appenders>
