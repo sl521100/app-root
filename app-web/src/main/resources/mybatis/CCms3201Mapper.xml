@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.sl.mybatis.mapper.CCms3201Mapper" >
+  <resultMap id="BaseResultMap" type="com.cn.sl.entity.CCms3201Entity" >
+    <id column="RECID" property="recid" jdbcType="DECIMAL" />
+    <result column="AWB_PRE" property="awbPre" jdbcType="VARCHAR" />
+    <result column="AWB_NO" property="awbNo" jdbcType="VARCHAR" />
+    <result column="HOUSE_NO" property="houseNo" jdbcType="VARCHAR" />
+    <result column="CARGODESCRIPTION" property="cargodescription" jdbcType="VARCHAR" />
+    <result column="COMPANYCODE" property="companycode" jdbcType="VARCHAR" />
+    <result column="CARRIERCODE" property="carriercode" jdbcType="VARCHAR" />
+    <result column="FLIGHTNO" property="flightno" jdbcType="VARCHAR" />
+    <result column="FLIGHTDATE" property="flightdate" jdbcType="TIMESTAMP" />
+    <result column="AIRPORT" property="airport" jdbcType="VARCHAR" />
+    <result column="PCS" property="pcs" jdbcType="DECIMAL" />
+    <result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
+    <result column="AWBPCS" property="awbpcs" jdbcType="DECIMAL" />
+    <result column="AWBWEIGHT" property="awbweight" jdbcType="DECIMAL" />
+    <result column="CREATE_OPE" property="createOpe" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TYPE" property="createType" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="MSGID" property="msgid" jdbcType="VARCHAR" />
+    <result column="SENDCODE" property="sendcode" jdbcType="VARCHAR" />
+    <result column="SENDRESPONSE" property="sendresponse" jdbcType="VARCHAR" />
+    <result column="ARRIVAL_DATE" property="arrivalDate" jdbcType="TIMESTAMP" />
+    <result column="OFFICEID" property="officeid" jdbcType="DECIMAL" />
+    <result column="SENDCOUNT" property="sendcount" jdbcType="DECIMAL" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="EXTS" property="exts" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RECID, AWB_PRE, AWB_NO, HOUSE_NO, CARGODESCRIPTION, COMPANYCODE, CARRIERCODE, FLIGHTNO, 
+    FLIGHTDATE, AIRPORT, PCS, WEIGHT, AWBPCS, AWBWEIGHT, CREATE_OPE, CREATE_TIME, CREATE_TYPE, 
+    STATUS, MSGID, SENDCODE, SENDRESPONSE, ARRIVAL_DATE, OFFICEID, SENDCOUNT, FLAG, EXTS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from C_CMS_3201
+    where RECID = #{recid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from C_CMS_3201
+    where RECID = #{recid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.cn.sl.entity.CCms3201Entity" >
+    <selectKey keyProperty="recid" order="BEFORE" resultType="Long">
+      select SEQ_C_CMS_3201.nextval as recid from dual
+    </selectKey>
+
+    insert into C_CMS_3201 (RECID, AWB_PRE, AWB_NO, 
+      HOUSE_NO, CARGODESCRIPTION, COMPANYCODE, 
+      CARRIERCODE, FLIGHTNO, FLIGHTDATE, 
+      AIRPORT, PCS, WEIGHT, 
+      AWBPCS, AWBWEIGHT, CREATE_OPE, 
+      CREATE_TIME, CREATE_TYPE, STATUS, 
+      MSGID, SENDCODE, SENDRESPONSE, 
+      ARRIVAL_DATE, OFFICEID, SENDCOUNT, 
+      FLAG, EXTS)
+    values (#{recid,jdbcType=DECIMAL}, #{awbPre,jdbcType=VARCHAR}, #{awbNo,jdbcType=VARCHAR}, 
+      #{houseNo,jdbcType=VARCHAR}, #{cargodescription,jdbcType=VARCHAR}, #{companycode,jdbcType=VARCHAR}, 
+      #{carriercode,jdbcType=VARCHAR}, #{flightno,jdbcType=VARCHAR}, #{flightdate,jdbcType=TIMESTAMP}, 
+      #{airport,jdbcType=VARCHAR}, #{pcs,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
+      #{awbpcs,jdbcType=DECIMAL}, #{awbweight,jdbcType=DECIMAL}, #{createOpe,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createType,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
+      #{msgid,jdbcType=VARCHAR}, #{sendcode,jdbcType=VARCHAR}, #{sendresponse,jdbcType=VARCHAR}, 
+      #{arrivalDate,jdbcType=TIMESTAMP}, #{officeid,jdbcType=DECIMAL}, #{sendcount,jdbcType=DECIMAL}, 
+      #{flag,jdbcType=VARCHAR}, #{exts,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.sl.entity.CCms3201Entity" >
+    insert into C_CMS_3201
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recid != null" >
+        RECID,
+      </if>
+      <if test="awbPre != null" >
+        AWB_PRE,
+      </if>
+      <if test="awbNo != null" >
+        AWB_NO,
+      </if>
+      <if test="houseNo != null" >
+        HOUSE_NO,
+      </if>
+      <if test="cargodescription != null" >
+        CARGODESCRIPTION,
+      </if>
+      <if test="companycode != null" >
+        COMPANYCODE,
+      </if>
+      <if test="carriercode != null" >
+        CARRIERCODE,
+      </if>
+      <if test="flightno != null" >
+        FLIGHTNO,
+      </if>
+      <if test="flightdate != null" >
+        FLIGHTDATE,
+      </if>
+      <if test="airport != null" >
+        AIRPORT,
+      </if>
+      <if test="pcs != null" >
+        PCS,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+      <if test="awbpcs != null" >
+        AWBPCS,
+      </if>
+      <if test="awbweight != null" >
+        AWBWEIGHT,
+      </if>
+      <if test="createOpe != null" >
+        CREATE_OPE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createType != null" >
+        CREATE_TYPE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="msgid != null" >
+        MSGID,
+      </if>
+      <if test="sendcode != null" >
+        SENDCODE,
+      </if>
+      <if test="sendresponse != null" >
+        SENDRESPONSE,
+      </if>
+      <if test="arrivalDate != null" >
+        ARRIVAL_DATE,
+      </if>
+      <if test="officeid != null" >
+        OFFICEID,
+      </if>
+      <if test="sendcount != null" >
+        SENDCOUNT,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="exts != null" >
+        EXTS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recid != null" >
+        #{recid,jdbcType=DECIMAL},
+      </if>
+      <if test="awbPre != null" >
+        #{awbPre,jdbcType=VARCHAR},
+      </if>
+      <if test="awbNo != null" >
+        #{awbNo,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNo != null" >
+        #{houseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cargodescription != null" >
+        #{cargodescription,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null" >
+        #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="carriercode != null" >
+        #{carriercode,jdbcType=VARCHAR},
+      </if>
+      <if test="flightno != null" >
+        #{flightno,jdbcType=VARCHAR},
+      </if>
+      <if test="flightdate != null" >
+        #{flightdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="airport != null" >
+        #{airport,jdbcType=VARCHAR},
+      </if>
+      <if test="pcs != null" >
+        #{pcs,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="awbpcs != null" >
+        #{awbpcs,jdbcType=DECIMAL},
+      </if>
+      <if test="awbweight != null" >
+        #{awbweight,jdbcType=DECIMAL},
+      </if>
+      <if test="createOpe != null" >
+        #{createOpe,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createType != null" >
+        #{createType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="msgid != null" >
+        #{msgid,jdbcType=VARCHAR},
+      </if>
+      <if test="sendcode != null" >
+        #{sendcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendresponse != null" >
+        #{sendresponse,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalDate != null" >
+        #{arrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="officeid != null" >
+        #{officeid,jdbcType=DECIMAL},
+      </if>
+      <if test="sendcount != null" >
+        #{sendcount,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="exts != null" >
+        #{exts,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.sl.entity.CCms3201Entity" >
+    update C_CMS_3201
+    <set >
+      <if test="awbPre != null" >
+        AWB_PRE = #{awbPre,jdbcType=VARCHAR},
+      </if>
+      <if test="awbNo != null" >
+        AWB_NO = #{awbNo,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNo != null" >
+        HOUSE_NO = #{houseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cargodescription != null" >
+        CARGODESCRIPTION = #{cargodescription,jdbcType=VARCHAR},
+      </if>
+      <if test="companycode != null" >
+        COMPANYCODE = #{companycode,jdbcType=VARCHAR},
+      </if>
+      <if test="carriercode != null" >
+        CARRIERCODE = #{carriercode,jdbcType=VARCHAR},
+      </if>
+      <if test="flightno != null" >
+        FLIGHTNO = #{flightno,jdbcType=VARCHAR},
+      </if>
+      <if test="flightdate != null" >
+        FLIGHTDATE = #{flightdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="airport != null" >
+        AIRPORT = #{airport,jdbcType=VARCHAR},
+      </if>
+      <if test="pcs != null" >
+        PCS = #{pcs,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null" >
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="awbpcs != null" >
+        AWBPCS = #{awbpcs,jdbcType=DECIMAL},
+      </if>
+      <if test="awbweight != null" >
+        AWBWEIGHT = #{awbweight,jdbcType=DECIMAL},
+      </if>
+      <if test="createOpe != null" >
+        CREATE_OPE = #{createOpe,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createType != null" >
+        CREATE_TYPE = #{createType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="msgid != null" >
+        MSGID = #{msgid,jdbcType=VARCHAR},
+      </if>
+      <if test="sendcode != null" >
+        SENDCODE = #{sendcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendresponse != null" >
+        SENDRESPONSE = #{sendresponse,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalDate != null" >
+        ARRIVAL_DATE = #{arrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="officeid != null" >
+        OFFICEID = #{officeid,jdbcType=DECIMAL},
+      </if>
+      <if test="sendcount != null" >
+        SENDCOUNT = #{sendcount,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="exts != null" >
+        EXTS = #{exts,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RECID = #{recid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.sl.entity.CCms3201Entity" >
+    update C_CMS_3201
+    set AWB_PRE = #{awbPre,jdbcType=VARCHAR},
+      AWB_NO = #{awbNo,jdbcType=VARCHAR},
+      HOUSE_NO = #{houseNo,jdbcType=VARCHAR},
+      CARGODESCRIPTION = #{cargodescription,jdbcType=VARCHAR},
+      COMPANYCODE = #{companycode,jdbcType=VARCHAR},
+      CARRIERCODE = #{carriercode,jdbcType=VARCHAR},
+      FLIGHTNO = #{flightno,jdbcType=VARCHAR},
+      FLIGHTDATE = #{flightdate,jdbcType=TIMESTAMP},
+      AIRPORT = #{airport,jdbcType=VARCHAR},
+      PCS = #{pcs,jdbcType=DECIMAL},
+      WEIGHT = #{weight,jdbcType=DECIMAL},
+      AWBPCS = #{awbpcs,jdbcType=DECIMAL},
+      AWBWEIGHT = #{awbweight,jdbcType=DECIMAL},
+      CREATE_OPE = #{createOpe,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_TYPE = #{createType,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      MSGID = #{msgid,jdbcType=VARCHAR},
+      SENDCODE = #{sendcode,jdbcType=VARCHAR},
+      SENDRESPONSE = #{sendresponse,jdbcType=VARCHAR},
+      ARRIVAL_DATE = #{arrivalDate,jdbcType=TIMESTAMP},
+      OFFICEID = #{officeid,jdbcType=DECIMAL},
+      SENDCOUNT = #{sendcount,jdbcType=DECIMAL},
+      FLAG = #{flag,jdbcType=VARCHAR},
+      EXTS = #{exts,jdbcType=VARCHAR}
+    where RECID = #{recid,jdbcType=DECIMAL}
+  </update>
+</mapper>
