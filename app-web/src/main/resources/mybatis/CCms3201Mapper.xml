@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+        <!--auto generator by shilin on ${.now?datetime}.-->
+
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.sl.mybatis.mapper.CCms3201Mapper" >
   <resultMap id="BaseResultMap" type="com.cn.sl.entity.CCms3201Entity" >
     <id column="RECID" property="recid" jdbcType="DECIMAL" />
@@ -35,11 +37,11 @@
     STATUS, MSGID, SENDCODE, SENDRESPONSE, ARRIVAL_DATE, OFFICEID, SENDCOUNT, FLAG, EXTS
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
-    select 
-    <include refid="Base_Column_List" />
-    from C_CMS_3201
-    where RECID = #{recid,jdbcType=DECIMAL}
-  </select>
+  select
+  <include refid="Base_Column_List" />
+  from C_CMS_3201
+  where RECID = #{recid,jdbcType=DECIMAL}
+</select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from C_CMS_3201
     where RECID = #{recid,jdbcType=DECIMAL}

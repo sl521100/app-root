@@ -741,12 +741,12 @@
             </activation>
             <properties>
                 <env>local</env>
-             
+
                 <data-source>
                     <![CDATA[
                     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
                           init-method="init" destroy-method="close">
-                        <property name="url" value="jdbc:oracle:thin:@localhost"/>
+                        <property name="url" value="jdbc:oracle:thin:@10.6.144.162:1522:CCSP"/>
                         <property name="username" value="cds"/>
                         <property name="password" value="cargo"/>
                         <property name="initialSize" value="1" />
